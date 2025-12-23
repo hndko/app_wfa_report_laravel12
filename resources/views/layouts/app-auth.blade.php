@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $page_title ?? 'WFA Report System' }}</title>
+    <title>{{ $page_title ?? 'Login - WFA Report System' }}</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -13,138 +16,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
         }
 
-        .auth-container {
+        .auth-card {
             background: white;
-            border-radius: 16px;
+            border-radius: 15px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 420px;
-            padding: 40px;
         }
 
         .auth-header {
             text-align: center;
-            margin-bottom: 32px;
+            padding: 30px;
+            border-bottom: 1px solid #e9ecef;
         }
 
         .auth-header i {
             font-size: 56px;
             color: #667eea;
-            margin-bottom: 16px;
+            margin-bottom: 15px;
         }
 
-        .auth-header h1 {
-            font-size: 28px;
-            color: #1f2937;
-            margin-bottom: 8px;
-        }
-
-        .auth-header p {
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .input-group {
-            position: relative;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #9ca3af;
-            font-size: 16px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px 14px 12px 42px;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 24px;
-        }
-
-        .remember-me input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
-
-        .remember-me label {
-            font-size: 14px;
-            color: #374151;
-            cursor: pointer;
-        }
-
-        .btn-auth {
-            width: 100%;
-            padding: 14px;
+        .btn-gradient {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            color: white;
         }
 
-        .btn-auth:hover {
-            transform: translateY(-2px);
-        }
-
-        .auth-footer {
-            margin-top: 24px;
-            text-align: center;
-            color: #6b7280;
-            font-size: 13px;
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #5568d3 0%, #6a3d8a 100%);
+            color: white;
         }
     </style>
 
@@ -152,28 +58,33 @@
 </head>
 
 <body>
-    <div class="auth-container">
-        <div class="auth-header">
-            <i class="fas fa-file-alt"></i>
-            <h1>WFA Report System</h1>
-            <p>Sistem Laporan Kerja WFA</p>
-        </div>
-
-        @yield('content')
-
-        <div class="auth-footer">
-            <p>&copy; 2025 WFA Report System. All rights reserved.</p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card auth-card">
+                    <div class="auth-header">
+                        <i class="fas fa-file-alt"></i>
+                        <h3 class="mb-1">WFA Report System</h3>
+                        <p class="text-muted mb-0">Sistem Laporan Kerja WFA</p>
+                    </div>
+                    <div class="card-body p-4">
+                        @yield('content')
+                    </div>
+                    <div class="card-footer text-center text-muted py-3">
+                        <small>&copy; 2025 WFA Report System. All rights reserved.</small>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Toastr JS -->
+    <!-- Toastr -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script>
-        // Toastr Configuration
         toastr.options = {
             "closeButton": true,
             "progressBar": true,
@@ -181,21 +92,12 @@
             "timeOut": "3000",
         };
 
-        // Display Flash Messages
         @if(session('success'))
             toastr.success("{{ session('success') }}");
         @endif
 
         @if(session('error'))
             toastr.error("{{ session('error') }}");
-        @endif
-
-        @if(session('info'))
-            toastr.info("{{ session('info') }}");
-        @endif
-
-        @if(session('warning'))
-            toastr.warning("{{ session('warning') }}");
         @endif
 
         @if($errors->any())

@@ -68,6 +68,29 @@
             </div>
 
             <div class="form-group">
+                <label class="form-label required">Role</label>
+                <div class="input-group">
+                    <i class="fas fa-user-tag input-icon"></i>
+                    <select name="role" class="form-control" required>
+                        <option value="">Pilih Role</option>
+                        <option value="user" {{ old('role')=='user' ? 'selected' : '' }}>User</option>
+                        <option value="superadmin" {{ old('role')=='superadmin' ? 'selected' : '' }}>Superadmin</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label required">Status</label>
+                <div class="input-group">
+                    <i class="fas fa-toggle-on input-icon"></i>
+                    <select name="is_active" class="form-control" required>
+                        <option value="1" {{ old('is_active', '1' )=='1' ? 'selected' : '' }}>Aktif</option>
+                        <option value="0" {{ old('is_active')=='0' ? 'selected' : '' }}>Tidak Aktif</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label class="form-label required">Password</label>
                 <div class="input-group">
                     <i class="fas fa-lock input-icon"></i>

@@ -6,8 +6,20 @@
         <h3 class="card-title"><i class="fas fa-clipboard-list"></i> Semua Laporan</h3>
     </div>
 
+    <!-- Export Buttons -->
+    <div class="card-body" style="padding-bottom: 0;">
+        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <a href="{{ route('reports.export.excel', request()->query()) }}" class="btn btn-success">
+                <i class="fas fa-file-excel"></i> Export Excel
+            </a>
+            <a href="{{ route('reports.export.pdf', request()->query()) }}" class="btn btn-danger">
+                <i class="fas fa-file-pdf"></i> Export PDF
+            </a>
+        </div>
+    </div>
+
     <!-- Filter Section -->
-    <div class="card-body">
+    <div class="card-body" style="padding-top: 0;">
         <form method="GET" action="{{ route('reports.index') }}" class="filter-section">
             <div class="filter-grid">
                 <div class="form-group" style="margin-bottom: 0;">
