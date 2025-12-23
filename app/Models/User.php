@@ -52,4 +52,9 @@ class User extends Authenticatable
             'is_active' => 'boolean',
         ];
     }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }
