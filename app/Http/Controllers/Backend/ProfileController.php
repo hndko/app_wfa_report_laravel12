@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +21,7 @@ class ProfileController extends Controller
             'user' => auth()->user(),
         ];
 
-        return view('profile.edit', $data);
+        return view('backend.profile.edit', $data);
     }
 
     /**

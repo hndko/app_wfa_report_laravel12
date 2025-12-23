@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\ReportController;
+use App\Http\Controllers\Backend\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*

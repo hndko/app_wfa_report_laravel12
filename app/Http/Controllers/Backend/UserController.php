@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -52,7 +54,7 @@ class UserController extends Controller
             'filters' => $request->only(['search', 'department', 'status']),
         ];
 
-        return view('users.index', $data);
+        return view('backend.users.index', $data);
     }
 
     /**
@@ -65,7 +67,7 @@ class UserController extends Controller
             'page_title' => 'Tambah User Baru',
         ];
 
-        return view('users.create', $data);
+        return view('backend.users.create', $data);
     }
 
     /**
@@ -126,7 +128,7 @@ class UserController extends Controller
             'recent_reports' => $user->reports()->latest()->limit(5)->get(),
         ];
 
-        return view('users.show', $data);
+        return view('backend.users.show', $data);
     }
 
     /**
@@ -144,7 +146,7 @@ class UserController extends Controller
             'user' => $user,
         ];
 
-        return view('users.edit', $data);
+        return view('backend.users.edit', $data);
     }
 
     /**

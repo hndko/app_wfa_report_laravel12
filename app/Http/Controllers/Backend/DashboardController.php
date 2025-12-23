@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Report;
 use Illuminate\Http\Request;
@@ -78,6 +79,6 @@ class DashboardController extends Controller
             ];
         }
 
-        return view('dashboard', $data);
+        return view('backend.dashboard', $data);
     }
 }

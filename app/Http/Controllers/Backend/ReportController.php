@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Report;
 use App\Models\ReportAttachment;
@@ -55,7 +57,7 @@ class ReportController extends Controller
             'filters' => $request->only(['user_id', 'status', 'date_from', 'date_to', 'month']),
         ];
 
-        return view('reports.index', $data);
+        return view('backend.reports.index', $data);
     }
 
     /**
@@ -83,7 +85,7 @@ class ReportController extends Controller
             'filters' => $request->only(['status', 'month']),
         ];
 
-        return view('reports.my-index', $data);
+        return view('backend.reports.my-index', $data);
     }
 
     /**
@@ -100,7 +102,7 @@ class ReportController extends Controller
             'report' => $report,
         ];
 
-        return view('reports.show', $data);
+        return view('backend.reports.show', $data);
     }
 
     /**
@@ -119,7 +121,7 @@ class ReportController extends Controller
             'report' => $report,
         ];
 
-        return view('reports.my-show', $data);
+        return view('backend.reports.my-show', $data);
     }
 
     /**
@@ -132,7 +134,7 @@ class ReportController extends Controller
             'page_title' => 'Buat Laporan Baru',
         ];
 
-        return view('reports.create', $data);
+        return view('backend.reports.create', $data);
     }
 
     /**
@@ -204,7 +206,7 @@ class ReportController extends Controller
             'report' => $report,
         ];
 
-        return view('reports.edit', $data);
+        return view('backend.reports.edit', $data);
     }
 
     /**
@@ -409,7 +411,7 @@ class ReportController extends Controller
         $reports = $query->latest('report_date')->get();
         $filters = $request->only(['user_id', 'status', 'date_from', 'date_to', 'month']);
 
-        $pdf = \PDF::loadView('reports.pdf', [
+        $pdf = \PDF::loadView('backend.reports.pdf', [
             'reports' => $reports,
             'filters' => $filters,
         ]);
