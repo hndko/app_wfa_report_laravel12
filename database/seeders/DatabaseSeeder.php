@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Super Administrator',
             'email' => 'admin@example.com',
-            'password' => 'password123',
+            'password' => 'password',
             'role' => 'superadmin',
             'nip' => '199001012020011001',
             'position' => 'Administrator Sistem',

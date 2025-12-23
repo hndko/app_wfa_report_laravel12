@@ -58,10 +58,10 @@ Menyimpan bukti kerja (screenshot/foto)
 
 ## 🔐 Default Accounts
 
-| Role       | Email             | Password    |
-| ---------- | ----------------- | ----------- |
-| Superadmin | admin@example.com | password123 |
-| User Demo  | user@example.com  | password123 |
+| Role       | Email             | Password |
+| ---------- | ----------------- | -------- |
+| Superadmin | admin@example.com | password |
+| User Demo  | user@example.com  | password |
 
 ## 🛠️ Setup & Installation
 
