@@ -366,21 +366,56 @@ class ReportController extends Controller
 
     /**
      * Export reports to Excel
-     * NOTE: Superadmin only, placeholder for Excel export
+     * NOTE: Superadmin only, exports filtered reports
      */
     public function exportExcel(Request $request)
     {
-        // TODO: Implement Excel export using Laravel Excel package
-        return back()->with('info', 'Fitur export Excel akan segera hadir!');
+        $filters = $request->only(['user_id', 'status', 'date_from', 'date_to', 'month']);
+
+        $filename = 'laporan_wfa_' . date('Y-m-d_His') . '.xlsx';
+
+        return \Excel::download(new \App\Exports\ReportsExport($filters), $filename);
     }
 
     /**
      * Export reports to PDF
-     * NOTE: Superadmin only, placeholder for PDF export
+     * NOTE: Superadmin only, exports filtered reports
      */
     public function exportPdf(Request $request)
     {
-        // TODO: Implement PDF export using DomPDF or similar
-        return back()->with('info', 'Fitur export PDF akan segera hadir!');
+        $query = Report::with('user:id,name,email,department');
+
+        // Apply same filters as index
+        if ($request->filled('user_id')) {
+            $query->where('user_id', $request->user_id);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('date_from')) {
+            $query->whereDate('report_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('report_date', '<=', $request->date_to);
+        }
+
+        if ($request->filled('month')) {
+            $query->whereRaw('DATE_FORMAT(report_date, "%Y-%m") = ?', [$request->month]);
+        }
+
+        $reports = $query->latest('report_date')->get();
+        $filters = $request->only(['user_id', 'status', 'date_from', 'date_to', 'month']);
+
+        $pdf = \PDF::loadView('reports.pdf', [
+            'reports' => $reports,
+            'filters' => $filters,
+        ]);
+
+        $filename = 'laporan_wfa_' . date('Y-m-d_His') . '.pdf';
+
+        return $pdf->download($filename);
     }
 }

@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
         // Create Superadmin
         User::create([
             'name' => 'Super Administrator',
-            'email' => 'admin@wfa.local',
-            'password' => bcrypt('password123'),
+            'email' => 'admin@example.com',
+            'password' => 'password123',
             'role' => 'superadmin',
             'nip' => '199001012020011001',
             'position' => 'Administrator Sistem',
@@ -31,8 +31,8 @@ class DatabaseSeeder extends Seeder
         // Create Demo User
         User::create([
             'name' => 'Demo User',
-            'email' => 'user@wfa.local',
-            'password' => bcrypt('password123'),
+            'email' => 'user@example.com',
+            'password' => 'password123',
             'role' => 'user',
             'nip' => '199505052021012001',
             'position' => 'Staff',

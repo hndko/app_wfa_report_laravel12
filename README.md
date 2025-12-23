@@ -58,10 +58,10 @@ Menyimpan bukti kerja (screenshot/foto)
 
 ## 🔐 Default Accounts
 
-| Role       | Email           | Password    |
-| ---------- | --------------- | ----------- |
-| Superadmin | admin@wfa.local | password123 |
-| User Demo  | user@wfa.local  | password123 |
+| Role       | Email             | Password    |
+| ---------- | ----------------- | ----------- |
+| Superadmin | admin@example.com | password123 |
+| User Demo  | user@example.com  | password123 |
 
 ## 🛠️ Setup & Installation
 
