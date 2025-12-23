@@ -1,59 +1,212 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# WFA Report System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem Laporan Kerja Work From Anywhere (WFA) untuk pegawai outsourcing lembaga pemerintah.
 
-## About Laravel
+## 📋 Tentang Proyek
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Aplikasi web berbasis Laravel 12 yang memudahkan pegawai untuk membuat laporan kerja harian saat WFA, dan memudahkan admin untuk mengelola serta menyetujui laporan tersebut.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Teknologi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   **Framework**: Laravel 12
+-   **PHP**: 8.2.29
+-   **Database**: SQLite (development)
+-   **Frontend**: Blade Templates + Vanilla CSS
 
-## Learning Laravel
+## 📦 Struktur Database
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Tabel Users
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Menyimpan data pengguna dengan role (superadmin/user)
 
-## Laravel Sponsors
+-   Role-based access control
+-   Informasi pegawai (NIP, jabatan, unit kerja)
+-   Status aktif/non-aktif
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Tabel Reports
 
-### Premium Partners
+Menyimpan laporan kerja WFA
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+-   Tanggal, jam mulai/selesai, lokasi kerja
+-   Deskripsi kegiatan dan hasil kerja
+-   Status: draft → submitted → approved/rejected
+-   Approval tracking
 
-## Contributing
+### Tabel Report Attachments
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Menyimpan bukti kerja (screenshot/foto)
 
-## Code of Conduct
+-   Multiple attachments per report
+-   File metadata (nama, ukuran, tipe)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 👥 Role & Fitur
 
-## Security Vulnerabilities
+### Superadmin
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+✅ **Dashboard**: Statistik total user, laporan hari ini, pending approval
+✅ **User Management**: CRUD users, activate/deactivate
+✅ **Report Management**: View semua laporan, filter, approve/reject
+✅ **Export**: Laporan ke Excel/PDF per periode
 
-## License
+### User (Pegawai)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+✅ **Dashboard**: Statistik personal, quick create laporan
+✅ **Create Report**: Input laporan harian dengan lampiran
+✅ **Edit/Delete**: Modifikasi laporan draft/rejected
+✅ **View History**: Riwayat laporan dengan status
+✅ **Profile**: Update data diri dan password
+
+## 🔐 Default Accounts
+
+| Role       | Email           | Password    |
+| ---------- | --------------- | ----------- |
+| Superadmin | admin@wfa.local | password123 |
+| User Demo  | user@wfa.local  | password123 |
+
+## 🛠️ Setup & Installation
+
+### Prerequisites
+
+-   PHP 8.2+
+-   Composer
+-   SQLite (atau MySQL untuk production)
+
+### Instalasi
+
+```bash
+# Clone atau navigate ke project directory
+cd /Applications/ServBay/www/app_wfa_report_laravel12
+
+# Install dependencies
+composer install
+
+# Copy environment file
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+
+# Create database
+touch database/database.sqlite
+
+# Run migrations & seeders
+php artisan migrate:fresh --seed
+
+# Create storage link (untuk upload file)
+php artisan storage:link
+
+# Start development server
+php artisan serve
+```
+
+Aplikasi akan berjalan di: `http://localhost:8000`
+
+## 📱 Cara Penggunaan
+
+### Login
+
+1. Buka `http://localhost:8000/login`
+2. Gunakan salah satu akun default di atas
+3. Anda akan diarahkan ke dashboard sesuai role
+
+### User - Membuat Laporan
+
+1. Login sebagai user
+2. Klik "Buat Laporan Baru"
+3. Isi form:
+    - Tanggal laporan
+    - Jam mulai & selesai
+    - Lokasi kerja WFA
+    - Deskripsi kegiatan
+    - Hasil kerja
+    - Upload bukti (screenshot/foto)
+4. Simpan sebagai draft atau submit langsung
+5. Laporan submitted akan menunggu approval
+
+### Superadmin - Approve Laporan
+
+1. Login sebagai superadmin
+2. Buka menu "Laporan"
+3. Filter laporan yang pending
+4. Klik detail laporan
+5. Approve atau Reject dengan alasan
+
+## 📝 Status Development
+
+### ✅ Completed
+
+-   [x] Laravel 12 installation dengan PHP 8.2
+-   [x] Database migrations (users, reports, attachments)
+-   [x] Model relationships & scopes
+-   [x] Authentication system (LoginController)
+-   [x] Role-based middleware
+-   [x] Route structure (auth, superadmin, user)
+-   [x] Database seeder dengan default accounts
+-   [x] Controller scaffolding (Dashboard, Users, Reports, Profile)
+
+### 🚧 In Progress
+
+-   [ ] Controller logic implementation
+-   [ ] Blade views & layouts
+-   [ ] File upload handling
+-   [ ] Export Excel/PDF functionality
+-   [ ] UI/UX styling
+
+### 📋 Planned
+
+-   [ ] Email notifications
+-   [ ] Advanced filtering & search
+-   [ ] Report analytics & charts
+-   [ ] Mobile responsive optimization
+-   [ ] API endpoints (optional)
+
+## 🗂️ Struktur Folder
+
+```
+app_wfa_report_laravel12/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Auth/
+│   │   │   │   └── LoginController.php
+│   │   │   ├── Superadmin/
+│   │   │   │   ├── DashboardController.php
+│   │   │   │   ├── UserController.php
+│   │   │   │   └── ReportController.php
+│   │   │   └── User/
+│   │   │       ├── DashboardController.php
+│   │   │       ├── ReportController.php
+│   │   │       └── ProfileController.php
+│   │   └── Middleware/
+│   │       └── RoleMiddleware.php
+│   └── Models/
+│       ├── User.php
+│       ├── Report.php
+│       └── ReportAttachment.php
+├── database/
+│   ├── migrations/
+│   └── seeders/
+└── routes/
+    └── web.php
+```
+
+## 🔄 Development Workflow
+
+1. **Tambah Fitur Baru**: Buat migration → Model → Controller → View
+2. **Update Database**: `php artisan migrate`
+3. **Reset Database**: `php artisan migrate:fresh --seed`
+4. **Testing**: Manual testing per role & feature
+
+## 📞 Support
+
+Untuk pertanyaan atau issue, silakan hubungi tim development.
+
+## 📄 License
+
+Proprietary - Internal use only untuk lembaga pemerintah terkait.
+
+---
+
+**Version**: 1.0.0-dev
+**Last Updated**: 2025-12-24
+**Developer**: AI Assistant
