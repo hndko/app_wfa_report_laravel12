@@ -41,7 +41,7 @@ class ReportController extends Controller
 
         // FILTER: By month
         if ($request->filled('month')) {
-            $query->whereRaw('DATE_FORMAT(report_date, "%Y-%m") = ?', [$request->month]);
+            $query->whereRaw('strftime("%Y-%m", report_date) = ?', [$request->month]);
         }
 
         // Get users list for filter
@@ -76,7 +76,7 @@ class ReportController extends Controller
 
         // FILTER: By month
         if ($request->filled('month')) {
-            $query->whereRaw('DATE_FORMAT(report_date, "%Y-%m") = ?', [$request->month]);
+            $query->whereRaw('strftime("%Y-%m", report_date) = ?', [$request->month]);
         }
 
         $data = [
@@ -405,7 +405,7 @@ class ReportController extends Controller
         }
 
         if ($request->filled('month')) {
-            $query->whereRaw('DATE_FORMAT(report_date, "%Y-%m") = ?', [$request->month]);
+            $query->whereRaw('strftime("%Y-%m", report_date) = ?', [$request->month]);
         }
 
         $reports = $query->latest('report_date')->get();

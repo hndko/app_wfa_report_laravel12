@@ -41,7 +41,7 @@ class ReportsExport implements FromCollection, WithHeadings, WithMapping, WithSt
         }
 
         if (!empty($this->filters['month'])) {
-            $query->whereRaw('DATE_FORMAT(report_date, "%Y-%m") = ?', [$this->filters['month']]);
+            $query->whereRaw('strftime("%Y-%m", report_date) = ?', [$this->filters['month']]);
         }
 
         return $query->latest('report_date')->get();
