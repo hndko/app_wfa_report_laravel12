@@ -13,11 +13,27 @@
     <!-- Vite CSS & JS (includes FontAwesome, Toastr, jQuery from npm) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <style>
+        /* Sidebar transition */
+        .sidebar-collapsed {
+            width: 0 !important;
+            overflow: hidden;
+        }
+
+        .sidebar-wrapper {
+            transition: width 0.3s ease-in-out;
+        }
+
+        .content-wrapper {
+            transition: margin-left 0.3s ease-in-out;
+        }
+    </style>
+
     @stack('styles')
 </head>
 
 <body class="bg-gray-100 font-sans antialiased" x-data="{ sidebarOpen: true, sidebarMobileOpen: false }">
-    <div class="min-h-screen flex">
+    <div class="min-h-screen flex relative">
         <!-- Mobile Sidebar Overlay -->
         <div x-show="sidebarMobileOpen" @click="sidebarMobileOpen = false"
             x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0"
@@ -27,14 +43,17 @@
         </div>
 
         <!-- Sidebar -->
-        <aside :class="sidebarMobileOpen ? 'translate-x-0' : '-translate-x-full'"
-            class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-800 text-white shadow-xl sidebar-transition lg:translate-x-0 lg:static lg:inset-0">
+        <aside :class="[
+                sidebarMobileOpen ? 'translate-x-0' : '-translate-x-full',
+                sidebarOpen ? 'lg:w-64' : 'lg:w-0 lg:overflow-hidden'
+            ]"
+            class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-800 text-white shadow-xl sidebar-wrapper lg:translate-x-0 lg:static lg:inset-0">
 
             <!-- Brand Logo -->
             <div class="flex items-center h-16 bg-gray-900 border-b border-gray-700 px-4">
                 <a href="{{ route('dashboard') }}" class="flex items-center space-x-3">
                     <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-10 h-10 object-contain">
-                    <span class="text-lg font-bold text-white">WFA Report</span>
+                    <span class="text-lg font-bold text-white whitespace-nowrap">WFA Report</span>
                 </a>
             </div>
 
@@ -62,46 +81,53 @@
                     <a href="{{ route('dashboard') }}"
                         class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 {{ request()->is('dashboard') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
                         <i class="fas fa-home w-5"></i>
-                        <span class="ml-3">Dashboard</span>
+                        <span class="ml-3 whitespace-nowrap">Dashboard</span>
                     </a>
 
                     @if(auth()->user()->role === 'superadmin')
                     <a href="{{ route('users.index') }}"
                         class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 {{ request()->is('users*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
                         <i class="fas fa-users w-5"></i>
-                        <span class="ml-3">Manajemen User</span>
+                        <span class="ml-3 whitespace-nowrap">Manajemen User</span>
                     </a>
 
                     <a href="{{ route('reports.index') }}"
                         class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 {{ request()->is('reports*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
                         <i class="fas fa-clipboard-list w-5"></i>
-                        <span class="ml-3">Semua Laporan</span>
+                        <span class="ml-3 whitespace-nowrap">Semua Laporan</span>
                     </a>
 
                     <a href="{{ route('settings.index') }}"
                         class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 {{ request()->is('settings*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
                         <i class="fas fa-cog w-5"></i>
-                        <span class="ml-3">Pengaturan</span>
+                        <span class="ml-3 whitespace-nowrap">Pengaturan</span>
                     </a>
                     @else
                     <a href="{{ route('my.reports.index') }}"
                         class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 {{ request()->is('my-reports*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
                         <i class="fas fa-clipboard-list w-5"></i>
-                        <span class="ml-3">Laporan Saya</span>
+                        <span class="ml-3 whitespace-nowrap">Laporan Saya</span>
                     </a>
 
                     <a href="{{ route('profile.edit') }}"
                         class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 {{ request()->is('profile*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
                         <i class="fas fa-user-cog w-5"></i>
-                        <span class="ml-3">Profil Saya</span>
+                        <span class="ml-3 whitespace-nowrap">Profil Saya</span>
                     </a>
                     @endif
                 </nav>
             </div>
         </aside>
 
+        <!-- Desktop Sidebar Toggle Button (at the edge) -->
+        <button @click="sidebarOpen = !sidebarOpen"
+            class="hidden lg:flex fixed z-50 items-center justify-center w-6 h-12 bg-gray-800 hover:bg-gray-700 text-white rounded-r-lg shadow-lg transition-all duration-300 top-1/2 -translate-y-1/2"
+            :style="sidebarOpen ? 'left: 256px' : 'left: 0'" :class="sidebarOpen ? 'left-64' : 'left-0'">
+            <i class="fas" :class="sidebarOpen ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
+        </button>
+
         <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col min-h-screen">
+        <div class="flex-1 flex flex-col min-h-screen content-wrapper">
             <!-- Top Navbar -->
             <header class="bg-white shadow-sm sticky top-0 z-40">
                 <div class="flex items-center justify-between h-16 px-4 lg:px-6">
@@ -111,7 +137,7 @@
                         <i class="fas fa-bars text-xl"></i>
                     </button>
 
-                    <!-- Desktop: Page Title or Empty -->
+                    <!-- Desktop: Empty spacer -->
                     <div class="hidden lg:block"></div>
 
                     <!-- Right Side Items -->
@@ -193,25 +219,25 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof toastr !== 'undefined') {
                 @if(session('success'))
-                    toastr.success("{{ session('success') }}");
+                toastr.success("{{ session('success') }}");
                 @endif
 
                 @if(session('error'))
-                    toastr.error("{{ session('error') }}");
+                toastr.error("{{ session('error') }}");
                 @endif
 
                 @if(session('info'))
-                    toastr.info("{{ session('info') }}");
+                toastr.info("{{ session('info') }}");
                 @endif
 
                 @if(session('warning'))
-                    toastr.warning("{{ session('warning') }}");
+                toastr.warning("{{ session('warning') }}");
                 @endif
 
                 @if($errors->any())
-                    @foreach($errors->all() as $error)
-                        toastr.error("{{ $error }}");
-                    @endforeach
+                @foreach($errors->all() as $error)
+                toastr.error("{{ $error }}");
+                @endforeach
                 @endif
             }
         });
