@@ -1,21 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title"><i class="fas fa-clipboard-list"></i> Laporan Saya</h3>
-        <a href="{{ route('my.reports.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Buat Laporan
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <!-- Header -->
+    <div
+        class="px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+            <i class="fas fa-clipboard-list mr-2 text-blue-600"></i>
+            Laporan Saya
+        </h3>
+        <a href="{{ route('my.reports.create') }}"
+            class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-150">
+            <i class="fas fa-plus mr-2"></i>
+            Buat Laporan
         </a>
     </div>
 
-    <div class="card-body">
-        <form method="GET" action="{{ route('my.reports.index') }}" class="filter-section">
-            <div class="filter-grid">
-                <div class="form-group" style="margin-bottom: 0;">
-                    <div class="input-group">
-                        <i class="fas fa-tag input-icon"></i>
-                        <select name="status" class="form-control">
+    <!-- Filter Section -->
+    <div class="px-6 py-6 border-b border-gray-200">
+        <form method="GET" action="{{ route('my.reports.index') }}" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Status Filter -->
+                <div>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-tag text-gray-400"></i>
+                        </div>
+                        <select name="status" class="form-select pl-10">
                             <option value="">Semua Status</option>
                             <option value="draft" {{ ($filters['status'] ?? '' )=='draft' ? 'selected' : '' }}>Draft
                             </option>
@@ -29,82 +40,120 @@
                     </div>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 0;">
-                    <div class="input-group">
-                        <i class="fas fa-calendar input-icon"></i>
-                        <input type="month" name="month" class="form-control" value="{{ $filters['month'] ?? '' }}">
+                <!-- Month Filter -->
+                <div>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-calendar text-gray-400"></i>
+                        </div>
+                        <input type="month" name="month" class="form-input pl-10" value="{{ $filters['month'] ?? '' }}">
                     </div>
                 </div>
             </div>
 
-            <div style="display: flex; gap: 10px;">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-filter"></i> Filter
+            <!-- Filter Actions -->
+            <div class="flex gap-3">
+                <button type="submit"
+                    class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-150">
+                    <i class="fas fa-filter mr-2"></i>
+                    Filter
                 </button>
-                <a href="{{ route('my.reports.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-redo"></i> Reset
+                <a href="{{ route('my.reports.index') }}"
+                    class="inline-flex items-center px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors duration-150">
+                    <i class="fas fa-redo mr-2"></i>
+                    Reset
                 </a>
             </div>
         </form>
     </div>
 
-    <div class="card-body">
+    <!-- Reports Table -->
+    <div class="px-6 pb-6">
         @if($reports->count() > 0)
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
+        <div class="overflow-x-auto rounded-lg border border-gray-200 mt-6">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
                     <tr>
-                        <th>Tanggal</th>
-                        <th>Lokasi Kerja</th>
-                        <th>Jam Kerja</th>
-                        <th>Lampiran</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Tanggal</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Lokasi Kerja</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Jam
+                            Kerja</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Lampiran</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($reports as $report)
-                    <tr>
-                        <td>{{ $report->report_date->format('d/m/Y') }}</td>
-                        <td>{{ $report->work_location }}</td>
-                        <td>{{ substr($report->start_time, 0, 5) }} - {{ substr($report->end_time, 0, 5) }}</td>
-                        <td>{{ $report->attachments_count }} file</td>
-                        <td>
+                    <tr class="hover:bg-gray-50 transition-colors duration-150">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ $report->report_date->format('d/m/Y') }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ $report->work_location }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ substr($report->start_time, 0, 5) }} - {{ substr($report->end_time, 0, 5) }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ $report->attachments_count }} file
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             @if($report->status === 'draft')
-                            <span class="badge badge-secondary">Draft</span>
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-800">Draft</span>
                             @elseif($report->status === 'submitted')
-                            <span class="badge badge-warning">Pending</span>
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">Pending</span>
                             @elseif($report->status === 'approved')
-                            <span class="badge badge-success">Disetujui</span>
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">Disetujui</span>
                             @else
-                            <span class="badge badge-danger">Ditolak</span>
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">Ditolak</span>
                             @endif
                         </td>
-                        <td>
-                            <a href="{{ route('my.reports.show', $report->id) }}" class="btn btn-info btn-sm">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            @if(in_array($report->status, ['draft', 'rejected']))
-                            <a href="{{ route('my.reports.edit', $report->id) }}" class="btn btn-warning btn-sm">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            @endif
-                            @if($report->status === 'draft')
-                            <form action="{{ route('my.reports.submit', $report->id) }}" method="POST"
-                                style="display: inline;" onsubmit="return confirm('Yakin ingin submit laporan ini?')">
-                                @csrf
-                                <button type="submit" class="btn btn-success btn-sm">
-                                    <i class="fas fa-paper-plane"></i>
-                                </button>
-                            </form>
-                            <form action="{{ route('my.reports.destroy', $report->id) }}" method="POST"
-                                style="display: inline;" onsubmit="return confirmDelete()">
-                                @csrf
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                            @endif
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            <div class="flex gap-2">
+                                <a href="{{ route('my.reports.show', $report->id) }}"
+                                    class="inline-flex items-center px-2 py-1 bg-blue-600 text-white text-xs font-medium rounded hover:bg-blue-700 transition-colors duration-150"
+                                    title="Lihat">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                @if(in_array($report->status, ['draft', 'rejected']))
+                                <a href="{{ route('my.reports.edit', $report->id) }}"
+                                    class="inline-flex items-center px-2 py-1 bg-yellow-600 text-white text-xs font-medium rounded hover:bg-yellow-700 transition-colors duration-150"
+                                    title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                @endif
+                                @if($report->status === 'draft')
+                                <form action="{{ route('my.reports.submit', $report->id) }}" method="POST"
+                                    class="inline-block" onsubmit="return confirm('Yakin ingin submit laporan ini?')">
+                                    @csrf
+                                    <button type="submit"
+                                        class="inline-flex items-center px-2 py-1 bg-green-600 text-white text-xs font-medium rounded hover:bg-green-700 transition-colors duration-150"
+                                        title="Submit">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </form>
+                                <form action="{{ route('my.reports.destroy', $report->id) }}" method="POST"
+                                    class="inline-block" x-data="confirmDelete"
+                                    @submit.prevent="confirm() && $el.submit()">
+                                    @csrf
+                                    <button type="submit"
+                                        class="inline-flex items-center px-2 py-1 bg-red-600 text-white text-xs font-medium rounded hover:bg-red-700 transition-colors duration-150"
+                                        title="Hapus">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                                @endif
+                            </div>
                         </td>
                     </tr>
                     @endforeach
@@ -112,13 +161,18 @@
             </table>
         </div>
 
-        {{ $reports->links() }}
+        <!-- Pagination -->
+        <div class="mt-4">
+            {{ $reports->links() }}
+        </div>
         @else
-        <div class="empty-state">
-            <i class="fas fa-clipboard-list"></i>
-            <p>Belum ada laporan</p>
-            <a href="{{ route('my.reports.create') }}" class="btn btn-primary" style="margin-top: 16px;">
-                <i class="fas fa-plus"></i> Buat Laporan Baru
+        <div class="text-center py-12">
+            <i class="fas fa-clipboard-list text-gray-300 text-5xl mb-4"></i>
+            <p class="text-gray-500 mb-4">Belum ada laporan</p>
+            <a href="{{ route('my.reports.create') }}"
+                class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-150">
+                <i class="fas fa-plus mr-2"></i>
+                Buat Laporan Baru
             </a>
         </div>
         @endif

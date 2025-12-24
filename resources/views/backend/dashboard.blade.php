@@ -3,88 +3,114 @@
 @section('content')
 @if(auth()->user()->role === 'superadmin')
 <!-- SUPERADMIN DASHBOARD -->
-<div class="row">
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>{{ $total_users }}</h3>
-                <p>Total User</p>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <!-- Total Users Card -->
+    <div
+        class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-blue-100 text-sm font-medium mb-1">Total User</p>
+                <h3 class="text-3xl font-bold">{{ $total_users }}</h3>
             </div>
-            <div class="icon">
-                <i class="fas fa-users"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-success">
-            <div class="inner">
-                <h3>{{ $active_users }}</h3>
-                <p>User Aktif</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-user-check"></i>
+            <div class="bg-white/20 rounded-full p-4">
+                <i class="fas fa-users text-3xl"></i>
             </div>
         </div>
     </div>
 
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-warning">
-            <div class="inner">
-                <h3>{{ $pending_reports }}</h3>
-                <p>Pending Approval</p>
+    <!-- Active Users Card -->
+    <div
+        class="bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-green-100 text-sm font-medium mb-1">User Aktif</p>
+                <h3 class="text-3xl font-bold">{{ $active_users }}</h3>
             </div>
-            <div class="icon">
-                <i class="fas fa-clock"></i>
+            <div class="bg-white/20 rounded-full p-4">
+                <i class="fas fa-user-check text-3xl"></i>
             </div>
         </div>
     </div>
 
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-primary">
-            <div class="inner">
-                <h3>{{ $total_reports_today }}</h3>
-                <p>Laporan Hari Ini</p>
+    <!-- Pending Reports Card -->
+    <div
+        class="bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-yellow-100 text-sm font-medium mb-1">Pending Approval</p>
+                <h3 class="text-3xl font-bold">{{ $pending_reports }}</h3>
             </div>
-            <div class="icon">
-                <i class="fas fa-file-alt"></i>
+            <div class="bg-white/20 rounded-full p-4">
+                <i class="fas fa-clock text-3xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Today Reports Card -->
+    <div
+        class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-purple-100 text-sm font-medium mb-1">Laporan Hari Ini</p>
+                <h3 class="text-3xl font-bold">{{ $total_reports_today }}</h3>
+            </div>
+            <div class="bg-white/20 rounded-full p-4">
+                <i class="fas fa-file-alt text-3xl"></i>
             </div>
         </div>
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title"><i class="fas fa-inbox"></i> Laporan Menunggu Approval</h3>
-        <div class="card-tools">
-            <a href="{{ route('reports.index') }}?status=submitted" class="btn btn-primary btn-sm">Lihat Semua</a>
-        </div>
+<!-- Pending Reports Table -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+            <i class="fas fa-inbox mr-2 text-blue-600"></i>
+            Laporan Menunggu Approval
+        </h3>
+        <a href="{{ route('reports.index') }}?status=submitted"
+            class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-150">
+            Lihat Semua
+        </a>
     </div>
-    <div class="card-body p-0">
+
+    <div class="overflow-x-auto">
         @if($recent_reports->count() > 0)
-        <table class="table table-hover">
-            <thead>
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
                 <tr>
-                    <th>Tanggal</th>
-                    <th>Nama User</th>
-                    <th>Department</th>
-                    <th>Lokasi Kerja</th>
-                    <th>Aksi</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Tanggal
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Nama
+                        User</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                        Department</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Lokasi
+                        Kerja</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Aksi
+                    </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="bg-white divide-y divide-gray-200">
                 @foreach($recent_reports as $report)
-                <tr>
-                    <td>{{ $report->report_date->format('d/m/Y') }}</td>
-                    <td>
-                        <strong>{{ $report->user->name }}</strong><br>
-                        <small class="text-muted">{{ $report->user->email }}</small>
+                <tr class="hover:bg-gray-50 transition-colors duration-150">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {{ $report->report_date->format('d/m/Y') }}
                     </td>
-                    <td>{{ $report->user->department }}</td>
-                    <td>{{ $report->work_location }}</td>
-                    <td>
-                        <a href="{{ route('reports.show', $report->id) }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye"></i> Lihat
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">{{ $report->user->name }}</div>
+                        <div class="text-sm text-gray-500">{{ $report->user->email }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {{ $report->user->department }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {{ $report->work_location }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                        <a href="{{ route('reports.show', $report->id) }}"
+                            class="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-md hover:bg-blue-700 transition-colors duration-150">
+                            <i class="fas fa-eye mr-1"></i> Lihat
                         </a>
                     </td>
                 </tr>
@@ -92,106 +118,145 @@
             </tbody>
         </table>
         @else
-        <div class="text-center p-5 text-muted">
-            <i class="fas fa-inbox fa-3x mb-3"></i>
-            <p>Tidak ada laporan yang menunggu approval</p>
+        <div class="text-center py-12">
+            <i class="fas fa-inbox text-gray-300 text-5xl mb-4"></i>
+            <p class="text-gray-500">Tidak ada laporan yang menunggu approval</p>
         </div>
         @endif
     </div>
 </div>
+
 @else
 <!-- USER DASHBOARD -->
-<div class="row">
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>{{ $total_reports }}</h3>
-                <p>Total Laporan</p>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <!-- Total Reports Card -->
+    <div
+        class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-blue-100 text-sm font-medium mb-1">Total Laporan</p>
+                <h3 class="text-3xl font-bold">{{ $total_reports }}</h3>
             </div>
-            <div class="icon">
-                <i class="fas fa-file-alt"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-success">
-            <div class="inner">
-                <h3>{{ $approved_reports }}</h3>
-                <p>Disetujui</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-check-circle"></i>
+            <div class="bg-white/20 rounded-full p-4">
+                <i class="fas fa-file-alt text-3xl"></i>
             </div>
         </div>
     </div>
 
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-warning">
-            <div class="inner">
-                <h3>{{ $submitted_reports }}</h3>
-                <p>Pending</p>
+    <!-- Approved Reports Card -->
+    <div
+        class="bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-green-100 text-sm font-medium mb-1">Disetujui</p>
+                <h3 class="text-3xl font-bold">{{ $approved_reports }}</h3>
             </div>
-            <div class="icon">
-                <i class="fas fa-clock"></i>
+            <div class="bg-white/20 rounded-full p-4">
+                <i class="fas fa-check-circle text-3xl"></i>
             </div>
         </div>
     </div>
 
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-danger">
-            <div class="inner">
-                <h3>{{ $rejected_reports }}</h3>
-                <p>Ditolak</p>
+    <!-- Pending Reports Card -->
+    <div
+        class="bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-yellow-100 text-sm font-medium mb-1">Pending</p>
+                <h3 class="text-3xl font-bold">{{ $submitted_reports }}</h3>
             </div>
-            <div class="icon">
-                <i class="fas fa-times-circle"></i>
+            <div class="bg-white/20 rounded-full p-4">
+                <i class="fas fa-clock text-3xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rejected Reports Card -->
+    <div
+        class="bg-gradient-to-br from-red-500 to-red-600 rounded-lg shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-red-100 text-sm font-medium mb-1">Ditolak</p>
+                <h3 class="text-3xl font-bold">{{ $rejected_reports }}</h3>
+            </div>
+            <div class="bg-white/20 rounded-full p-4">
+                <i class="fas fa-times-circle text-3xl"></i>
             </div>
         </div>
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title"><i class="fas fa-history"></i> Laporan Terbaru Saya</h3>
-        <div class="card-tools">
-            <a href="{{ route('my.reports.create') }}" class="btn btn-primary btn-sm">
-                <i class="fas fa-plus"></i> Buat Laporan Baru
-            </a>
-        </div>
+<!-- Recent Reports Table -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <div
+        class="px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+            <i class="fas fa-history mr-2 text-blue-600"></i>
+            Laporan Terbaru Saya
+        </h3>
+        <a href="{{ route('my.reports.create') }}"
+            class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-150">
+            <i class="fas fa-plus mr-2"></i>
+            Buat Laporan Baru
+        </a>
     </div>
-    <div class="card-body p-0">
+
+    <div class="overflow-x-auto">
         @if($recent_reports->count() > 0)
-        <table class="table table-hover">
-            <thead>
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
                 <tr>
-                    <th>Tanggal</th>
-                    <th>Lokasi Kerja</th>
-                    <th>Lampiran</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Tanggal
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Lokasi
+                        Kerja</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                        Lampiran</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Aksi
+                    </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="bg-white divide-y divide-gray-200">
                 @foreach($recent_reports as $report)
-                <tr>
-                    <td>{{ $report->report_date->format('d/m/Y') }}</td>
-                    <td>{{ $report->work_location }}</td>
-                    <td>{{ $report->attachments_count }} file</td>
-                    <td>
+                <tr class="hover:bg-gray-50 transition-colors duration-150">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {{ $report->report_date->format('d/m/Y') }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {{ $report->work_location }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {{ $report->attachments_count }} file
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
                         @if($report->status === 'draft')
-                        <span class="badge bg-secondary">Draft</span>
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-800">
+                            Draft
+                        </span>
                         @elseif($report->status === 'submitted')
-                        <span class="badge bg-warning">Pending</span>
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
+                            Pending
+                        </span>
                         @elseif($report->status === 'approved')
-                        <span class="badge bg-success">Disetujui</span>
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                            Disetujui
+                        </span>
                         @else
-                        <span class="badge bg-danger">Ditolak</span>
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
+                            Ditolak
+                        </span>
                         @endif
                     </td>
-                    <td>
-                        <a href="{{ route('my.reports.show', $report->id) }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye"></i>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                        <a href="{{ route('my.reports.show', $report->id) }}"
+                            class="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-md hover:bg-blue-700 transition-colors duration-150">
+                            <i class="fas fa-eye mr-1"></i> Lihat
                         </a>
                     </td>
                 </tr>
@@ -199,25 +264,36 @@
             </tbody>
         </table>
         @else
-        <div class="text-center p-5 text-muted">
-            <i class="fas fa-file-alt fa-3x mb-3"></i>
-            <p>Belum ada laporan. Buat laporan pertama Anda!</p>
-            <a href="{{ route('my.reports.create') }}" class="btn btn-primary mt-2">
-                <i class="fas fa-plus"></i> Buat Laporan Baru
+        <div class="text-center py-12">
+            <i class="fas fa-file-alt text-gray-300 text-5xl mb-4"></i>
+            <p class="text-gray-500 mb-4">Belum ada laporan. Buat laporan pertama Anda!</p>
+            <a href="{{ route('my.reports.create') }}"
+                class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-150">
+                <i class="fas fa-plus mr-2"></i>
+                Buat Laporan Baru
             </a>
         </div>
         @endif
     </div>
 </div>
 
+<!-- Reminder Alert -->
 @if(!$has_report_today)
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <h5><i class="icon fas fa-exclamation-triangle"></i> Reminder!</h5>
-    Anda belum membuat laporan untuk hari ini.
-    <a href="{{ route('my.reports.create') }}" class="btn btn-warning btn-sm ms-2">
-        <i class="fas fa-plus"></i> Buat Sekarang
-    </a>
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+<div class="mt-6 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg" role="alert">
+    <div class="flex items-start">
+        <div class="flex-shrink-0">
+            <i class="fas fa-exclamation-triangle text-yellow-400 text-xl"></i>
+        </div>
+        <div class="ml-3 flex-1">
+            <h5 class="text-sm font-semibold text-yellow-800 mb-1">Reminder!</h5>
+            <p class="text-sm text-yellow-700 mb-2">Anda belum membuat laporan untuk hari ini.</p>
+            <a href="{{ route('my.reports.create') }}"
+                class="inline-flex items-center px-3 py-1.5 bg-yellow-600 text-white text-xs font-medium rounded-md hover:bg-yellow-700 transition-colors duration-150">
+                <i class="fas fa-plus mr-1"></i>
+                Buat Sekarang
+            </a>
+        </div>
+    </div>
 </div>
 @endif
 @endif

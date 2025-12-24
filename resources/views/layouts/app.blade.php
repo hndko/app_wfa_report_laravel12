@@ -10,300 +10,148 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- AdminLTE 3 CSS (Compatible with current structure) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
-
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-    <!-- Custom Styles -->
-    <style>
-        :root {
-            --primary-color: #007bff;
-            --secondary-color: #6c757d;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
-            --warning-color: #ffc107;
-            --info-color: #17a2b8;
-        }
-
-        body {
-            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        .main-header {
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .main-sidebar {
-            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08), 0 10px 10px rgba(0, 0, 0, 0.08);
-        }
-
-        .brand-link {
-            border-bottom: 1px solid #4b545c;
-            padding: 0.8125rem 0.5rem;
-        }
-
-        .brand-image {
-            margin-left: 0.8rem;
-            margin-right: 0.5rem;
-        }
-
-        .user-panel {
-            border-bottom: 1px solid #4f5962;
-        }
-
-        .nav-sidebar .nav-link {
-            border-radius: 0.25rem;
-            margin: 0 0.5rem;
-        }
-
-        .nav-sidebar .nav-link.active {
-            background-color: var(--primary-color);
-            color: #fff;
-        }
-
-        .card {
-            box-shadow: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
-            margin-bottom: 1rem;
-        }
-
-        .card-header {
-            background-color: transparent;
-            border-bottom: 1px solid #dee2e6;
-            padding: 0.75rem 1.25rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-body {
-            padding: 1.25rem;
-        }
-
-        .table {
-            margin-bottom: 0;
-        }
-
-        .table thead th {
-            border-bottom: 2px solid #dee2e6;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.875rem;
-            letter-spacing: 0.5px;
-        }
-
-        .badge {
-            padding: 0.35em 0.65em;
-            font-weight: 600;
-        }
-
-        .btn {
-            font-weight: 400;
-        }
-
-        .btn-sm {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-        }
-
-        .form-control:focus,
-        .form-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
-        }
-
-        .input-group {
-            position: relative;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c757d;
-            z-index: 4;
-            pointer-events: none;
-        }
-
-        .input-group .form-control,
-        .input-group .form-select {
-            padding-left: 38px;
-        }
-
-        .small-box {
-            border-radius: 0.25rem;
-            box-shadow: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
-            display: block;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .small-box>.inner {
-            padding: 10px;
-        }
-
-        .small-box .icon {
-            color: rgba(0, 0, 0, .15);
-            z-index: 0;
-        }
-
-        .content-wrapper {
-            background-color: #f4f6f9;
-        }
-
-        @media (max-width: 768px) {
-            .card-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .card-header .btn {
-                margin-top: 0.5rem;
-            }
-        }
-    </style>
+    <!-- Vite CSS -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @stack('styles')
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
-        <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-            </ul>
+<body class="bg-gray-100 font-sans antialiased" x-data="{ sidebarOpen: true }">
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+            class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-800 text-white shadow-xl sidebar-transition lg:translate-x-0 lg:static lg:inset-0">
 
-            <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <span class="nav-link">
-                        <i class="far fa-calendar"></i>
-                        {{ \Carbon\Carbon::now()->isoFormat('dddd, D MMMM YYYY') }}
-                    </span>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </li>
-            </ul>
-        </nav>
-
-        <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="{{ route('dashboard') }}" class="brand-link">
-                <i class="fas fa-file-alt brand-image"></i>
-                <span class="brand-text font-weight-light">WFA Report</span>
-            </a>
+            <div class="flex items-center justify-center h-16 bg-gray-900 border-b border-gray-700">
+                <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 px-4">
+                    <i class="fas fa-file-alt text-2xl text-blue-400"></i>
+                    <span class="text-xl font-bold">WFA Report</span>
+                </a>
+            </div>
 
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Sidebar user panel -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image">
-                        <i class="fas fa-user-circle fa-2x text-white"></i>
-                    </div>
-                    <div class="info">
-                        <a href="#" class="d-block">{{ auth()->user()->name }}</a>
-                        <small class="text-muted">{{ auth()->user()->role === 'superadmin' ? 'Super Admin' : 'User'
-                            }}</small>
+            <!-- Sidebar Content -->
+            <div class="flex flex-col h-[calc(100vh-4rem)] overflow-y-auto">
+                <!-- User Panel -->
+                <div class="p-4 border-b border-gray-700">
+                    <div class="flex items-center space-x-3">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-user-circle text-3xl text-gray-400"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium truncate">{{ auth()->user()->name }}</p>
+                            <p class="text-xs text-gray-400 truncate">
+                                {{ auth()->user()->role === 'superadmin' ? 'Super Admin' : 'User' }}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Sidebar Menu -->
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="false">
-                        <li class="nav-item">
-                            <a href="{{ route('dashboard') }}"
-                                class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-home"></i>
-                                <p>Dashboard</p>
-                            </a>
-                        </li>
+                <!-- Navigation Menu -->
+                <nav class="flex-1 px-3 py-4 space-y-1">
+                    <a href="{{ route('dashboard') }}"
+                        class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 {{ request()->is('dashboard') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+                        <i class="fas fa-home w-5"></i>
+                        <span class="ml-3">Dashboard</span>
+                    </a>
 
-                        @if(auth()->user()->role === 'superadmin')
-                        <li class="nav-item">
-                            <a href="{{ route('users.index') }}"
-                                class="nav-link {{ request()->is('users*') ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>Manajemen User</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('reports.index') }}"
-                                class="nav-link {{ request()->is('reports*') ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-clipboard-list"></i>
-                                <p>Semua Laporan</p>
-                            </a>
-                        </li>
-                        @else
-                        <li class="nav-item">
-                            <a href="{{ route('my.reports.index') }}"
-                                class="nav-link {{ request()->is('my-reports*') ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-clipboard-list"></i>
-                                <p>Laporan Saya</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('profile.edit') }}"
-                                class="nav-link {{ request()->is('profile*') ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-user-cog"></i>
-                                <p>Profil Saya</p>
-                            </a>
-                        </li>
-                        @endif
-                    </ul>
+                    @if(auth()->user()->role === 'superadmin')
+                    <a href="{{ route('users.index') }}"
+                        class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 {{ request()->is('users*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+                        <i class="fas fa-users w-5"></i>
+                        <span class="ml-3">Manajemen User</span>
+                    </a>
+
+                    <a href="{{ route('reports.index') }}"
+                        class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 {{ request()->is('reports*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+                        <i class="fas fa-clipboard-list w-5"></i>
+                        <span class="ml-3">Semua Laporan</span>
+                    </a>
+                    @else
+                    <a href="{{ route('my.reports.index') }}"
+                        class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 {{ request()->is('my-reports*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+                        <i class="fas fa-clipboard-list w-5"></i>
+                        <span class="ml-3">Laporan Saya</span>
+                    </a>
+
+                    <a href="{{ route('profile.edit') }}"
+                        class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 {{ request()->is('profile*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+                        <i class="fas fa-user-cog w-5"></i>
+                        <span class="ml-3">Profil Saya</span>
+                    </a>
+                    @endif
                 </nav>
             </div>
         </aside>
 
-        <!-- Content Wrapper -->
-        <div class="content-wrapper">
-            <!-- Content Header -->
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">{{ $page_title ?? 'Dashboard' }}</h1>
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col min-h-screen lg:ml-0">
+            <!-- Top Navbar -->
+            <header class="bg-white shadow-sm sticky top-0 z-40">
+                <div class="flex items-center justify-between h-16 px-4 lg:px-6">
+                    <!-- Mobile Menu Button -->
+                    <button @click="sidebarOpen = !sidebarOpen"
+                        class="lg:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+
+                    <!-- Desktop Sidebar Toggle -->
+                    <button @click="sidebarOpen = !sidebarOpen"
+                        class="hidden lg:block p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+
+                    <!-- Right Side Items -->
+                    <div class="flex items-center space-x-4">
+                        <!-- Current Date -->
+                        <div class="hidden md:flex items-center text-sm text-gray-600">
+                            <i class="far fa-calendar mr-2"></i>
+                            <span>{{ \Carbon\Carbon::now()->isoFormat('dddd, D MMMM YYYY') }}</span>
                         </div>
+
+                        <!-- Logout Button -->
+                        <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                            class="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-150">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span class="hidden sm:inline">Logout</span>
+                        </button>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                            @csrf
+                        </form>
                     </div>
                 </div>
-            </div>
+            </header>
 
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    @yield('content')
+            <!-- Page Content -->
+            <main class="flex-1 p-4 lg:p-6">
+                <!-- Page Header -->
+                <div class="mb-6">
+                    <h1 class="text-2xl lg:text-3xl font-bold text-gray-900">{{ $page_title ?? 'Dashboard' }}</h1>
                 </div>
-            </section>
-        </div>
 
-        <!-- Footer -->
-        <footer class="main-footer">
-            <strong>&copy; 2025 WFA Report System.</strong> All rights reserved.
-        </footer>
+                <!-- Content -->
+                @yield('content')
+            </main>
+
+            <!-- Footer -->
+            <footer class="bg-white border-t border-gray-200 py-4 px-4 lg:px-6">
+                <div class="text-sm text-gray-600 text-center">
+                    <strong>&copy; 2025 WFA Report System.</strong> All rights reserved.
+                </div>
+            </footer>
+        </div>
     </div>
 
-    <!-- jQuery (required by AdminLTE) -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-    <!-- Bootstrap 4 Bundle (AdminLTE 3 requires Bootstrap 4) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- AdminLTE App -->
-    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+    <!-- Mobile Sidebar Overlay -->
+    <div x-show="!sidebarOpen" @click="sidebarOpen = true"
+        x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+        class="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 lg:hidden" style="display: none;">
+    </div>
 
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>

@@ -1,41 +1,52 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title"><i class="fas fa-file-alt"></i> Detail Laporan</h3>
-        <a href="{{ route('reports.index') }}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Kembali
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <!-- Header -->
+    <div
+        class="px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+            <i class="fas fa-file-alt mr-2 text-blue-600"></i>
+            Detail Laporan
+        </h3>
+        <a href="{{ route('reports.index') }}"
+            class="inline-flex items-center px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors duration-150">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Kembali
         </a>
     </div>
 
-    <div class="card-body">
+    <div class="p-6 space-y-6">
         <!-- User Info -->
-        <div style="background: var(--light); padding: 16px; border-radius: 8px; margin-bottom: 24px;">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+        <div class="bg-gray-50 rounded-lg p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div>
-                    <label style="font-size: 12px; color: var(--text-light); font-weight: 600;">NAMA USER</label>
-                    <p style="margin: 4px 0 0; font-weight: 600;">{{ $report->user->name }}</p>
+                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Nama User</label>
+                    <p class="mt-1 text-sm font-semibold text-gray-900">{{ $report->user->name }}</p>
                 </div>
                 <div>
-                    <label style="font-size: 12px; color: var(--text-light); font-weight: 600;">DEPARTMENT</label>
-                    <p style="margin: 4px 0 0;">{{ $report->user->department }}</p>
+                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Department</label>
+                    <p class="mt-1 text-sm text-gray-900">{{ $report->user->department }}</p>
                 </div>
                 <div>
-                    <label style="font-size: 12px; color: var(--text-light); font-weight: 600;">JABATAN</label>
-                    <p style="margin: 4px 0 0;">{{ $report->user->position }}</p>
+                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Jabatan</label>
+                    <p class="mt-1 text-sm text-gray-900">{{ $report->user->position }}</p>
                 </div>
                 <div>
-                    <label style="font-size: 12px; color: var(--text-light); font-weight: 600;">STATUS</label>
-                    <p style="margin: 4px 0 0;">
+                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</label>
+                    <p class="mt-1">
                         @if($report->status === 'draft')
-                        <span class="badge badge-secondary">Draft</span>
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-800">Draft</span>
                         @elseif($report->status === 'submitted')
-                        <span class="badge badge-warning">Pending</span>
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">Pending</span>
                         @elseif($report->status === 'approved')
-                        <span class="badge badge-success">Disetujui</span>
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">Disetujui</span>
                         @else
-                        <span class="badge badge-danger">Ditolak</span>
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">Ditolak</span>
                         @endif
                     </p>
                 </div>
@@ -43,73 +54,62 @@
         </div>
 
         <!-- Report Details -->
-        <div
-            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 24px;">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-                <label
-                    style="font-weight: 600; color: var(--text-light); font-size: 13px; display: block; margin-bottom: 8px;">TANGGAL
-                    LAPORAN</label>
-                <p style="font-size: 16px; color: var(--dark);">{{ $report->report_date->format('d F Y') }}</p>
+                <label class="block text-sm font-semibold text-gray-600 mb-2">Tanggal Laporan</label>
+                <p class="text-lg text-gray-900">{{ $report->report_date->format('d F Y') }}</p>
             </div>
-
             <div>
-                <label
-                    style="font-weight: 600; color: var(--text-light); font-size: 13px; display: block; margin-bottom: 8px;">JAM
-                    KERJA</label>
-                <p style="font-size: 16px; color: var(--dark);">{{ substr($report->start_time, 0, 5) }} - {{
-                    substr($report->end_time, 0, 5) }}</p>
+                <label class="block text-sm font-semibold text-gray-600 mb-2">Jam Kerja</label>
+                <p class="text-lg text-gray-900">{{ substr($report->start_time, 0, 5) }} - {{ substr($report->end_time,
+                    0, 5) }}</p>
             </div>
-
             <div>
-                <label
-                    style="font-weight: 600; color: var(--text-light); font-size: 13px; display: block; margin-bottom: 8px;">LOKASI
-                    KERJA</label>
-                <p style="font-size: 16px; color: var(--dark);">{{ $report->work_location }}</p>
+                <label class="block text-sm font-semibold text-gray-600 mb-2">Lokasi Kerja</label>
+                <p class="text-lg text-gray-900">{{ $report->work_location }}</p>
             </div>
         </div>
 
-        <div style="margin-bottom: 24px;">
-            <label
-                style="font-weight: 600; color: var(--text-light); font-size: 13px; display: block; margin-bottom: 8px;">KEGIATAN</label>
-            <p style="font-size: 14px; color: var(--dark); white-space: pre-wrap;">{{ $report->activities }}</p>
+        <!-- Activities -->
+        <div>
+            <label class="block text-sm font-semibold text-gray-600 mb-2">Kegiatan</label>
+            <p class="text-sm text-gray-900 whitespace-pre-wrap bg-gray-50 p-4 rounded-lg">{{ $report->activities }}</p>
         </div>
 
+        <!-- Results -->
         @if($report->results)
-        <div style="margin-bottom: 24px;">
-            <label
-                style="font-weight: 600; color: var(--text-light); font-size: 13px; display: block; margin-bottom: 8px;">HASIL
-                KERJA</label>
-            <p style="font-size: 14px; color: var(--dark); white-space: pre-wrap;">{{ $report->results }}</p>
+        <div>
+            <label class="block text-sm font-semibold text-gray-600 mb-2">Hasil Kerja</label>
+            <p class="text-sm text-gray-900 whitespace-pre-wrap bg-gray-50 p-4 rounded-lg">{{ $report->results }}</p>
         </div>
         @endif
 
+        <!-- Notes -->
         @if($report->notes)
-        <div style="margin-bottom: 24px;">
-            <label
-                style="font-weight: 600; color: var(--text-light); font-size: 13px; display: block; margin-bottom: 8px;">CATATAN</label>
-            <p style="font-size: 14px; color: var(--dark); white-space: pre-wrap;">{{ $report->notes }}</p>
+        <div>
+            <label class="block text-sm font-semibold text-gray-600 mb-2">Catatan</label>
+            <p class="text-sm text-gray-900 whitespace-pre-wrap bg-gray-50 p-4 rounded-lg">{{ $report->notes }}</p>
         </div>
         @endif
 
         <!-- Attachments -->
         @if($report->attachments->count() > 0)
-        <div style="margin-bottom: 24px;">
-            <label
-                style="font-weight: 600; color: var(--text-light); font-size: 13px; display: block; margin-bottom: 12px;">LAMPIRAN
-                ({{ $report->attachments->count() }})</label>
-            <div class="image-preview-container">
+        <div>
+            <label class="block text-sm font-semibold text-gray-600 mb-3">Lampiran ({{ $report->attachments->count()
+                }})</label>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 @foreach($report->attachments as $attachment)
-                <div class="image-preview">
+                <div class="relative group rounded-lg overflow-hidden border border-gray-200 aspect-square">
                     @if(in_array($attachment->file_type, ['image/jpeg', 'image/png', 'image/jpg']))
-                    <img src="{{ asset('storage/' . $attachment->file_path) }}" alt="{{ $attachment->file_name }}">
+                    <img src="{{ asset('storage/' . $attachment->file_path) }}" alt="{{ $attachment->file_name }}"
+                        class="w-full h-full object-cover">
                     @else
-                    <div
-                        style="display: flex; align-items: center; justify-content: center; height: 100%; background: var(--light);">
-                        <i class="fas fa-file-pdf" style="font-size: 32px; color: var(--danger);"></i>
+                    <div class="flex items-center justify-center h-full bg-gray-100">
+                        <i class="fas fa-file-pdf text-4xl text-red-500"></i>
                     </div>
                     @endif
                     <a href="{{ asset('storage/' . $attachment->file_path) }}" target="_blank"
-                        style="position: absolute; bottom: 4px; right: 4px; background: var(--primary); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 12px;">
+                        class="absolute bottom-2 right-2 bg-blue-600 text-white p-2 rounded-md text-xs hover:bg-blue-700 transition-colors duration-150">
                         <i class="fas fa-download"></i>
                     </a>
                 </div>
@@ -118,38 +118,44 @@
         </div>
         @endif
 
-        <!-- Approval Info -->
+        <!-- Approval/Rejection Info -->
         @if($report->status === 'approved' || $report->status === 'rejected')
-        <hr>
-        <div style="margin-top: 24px;">
-            <h4 style="margin-bottom: 16px;">
-                <i class="fas fa-{{ $report->status === 'approved' ? 'check-circle' : 'times-circle' }}"></i>
+        <div class="border-t border-gray-200 pt-6">
+            <h4 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i
+                    class="fas fa-{{ $report->status === 'approved' ? 'check-circle text-green-600' : 'times-circle text-red-600' }} mr-2"></i>
                 {{ $report->status === 'approved' ? 'Informasi Persetujuan' : 'Informasi Penolakan' }}
             </h4>
-            <div style="background: var(--light); padding: 16px; border-radius: 8px;">
-                <p><strong>Diproses oleh:</strong> {{ $report->approver->name }}</p>
-                <p><strong>Tanggal:</strong> {{ $report->approved_at->format('d F Y H:i') }}</p>
+            <div
+                class="bg-{{ $report->status === 'approved' ? 'green' : 'red' }}-50 border border-{{ $report->status === 'approved' ? 'green' : 'red' }}-200 rounded-lg p-4 space-y-2">
+                <p class="text-sm"><strong class="font-semibold">Diproses oleh:</strong> {{ $report->approver->name }}
+                </p>
+                <p class="text-sm"><strong class="font-semibold">Tanggal:</strong> {{ $report->approved_at->format('d F
+                    Y H:i') }}</p>
                 @if($report->rejection_reason)
-                <p><strong>Alasan:</strong> {{ $report->rejection_reason }}</p>
+                <p class="text-sm"><strong class="font-semibold">Alasan:</strong> {{ $report->rejection_reason }}</p>
                 @endif
             </div>
         </div>
         @endif
 
-        <!-- Actions -->
+        <!-- Action Buttons -->
         @if($report->status === 'submitted')
-        <hr>
-        <div style="margin-top: 24px; display: flex; gap: 12px;">
+        <div class="border-t border-gray-200 pt-6 flex flex-wrap gap-3">
             <form action="{{ route('reports.approve', $report->id) }}" method="POST"
                 onsubmit="return confirm('Yakin ingin menyetujui laporan ini?')">
                 @csrf
-                <button type="submit" class="btn btn-success">
-                    <i class="fas fa-check"></i> Setujui Laporan
+                <button type="submit"
+                    class="inline-flex items-center px-6 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors duration-150">
+                    <i class="fas fa-check mr-2"></i>
+                    Setujui Laporan
                 </button>
             </form>
 
-            <button type="button" class="btn btn-danger" onclick="showRejectModal()">
-                <i class="fas fa-times"></i> Tolak Laporan
+            <button type="button" onclick="document.getElementById('rejectModal').classList.remove('hidden')"
+                class="inline-flex items-center px-6 py-2.5 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors duration-150">
+                <i class="fas fa-times mr-2"></i>
+                Tolak Laporan
             </button>
         </div>
         @endif
@@ -158,33 +164,32 @@
 
 <!-- Reject Modal -->
 @if($report->status === 'submitted')
-<div id="rejectModal"
-    style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center;">
-    <div style="background: white; padding: 24px; border-radius: 12px; max-width: 500px; width: 90%;">
-        <h3 style="margin-bottom: 16px;"><i class="fas fa-times-circle"></i> Tolak Laporan</h3>
+<div id="rejectModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg max-w-md w-full p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+            <i class="fas fa-times-circle text-red-600 mr-2"></i>
+            Tolak Laporan
+        </h3>
         <form action="{{ route('reports.reject', $report->id) }}" method="POST">
             @csrf
-            <div class="form-group">
-                <label class="form-label required">Alasan Penolakan</label>
-                <textarea name="rejection_reason" class="form-control" rows="4"
-                    placeholder="Masukkan alasan penolakan..." required style="padding: 12px 14px;"></textarea>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Alasan Penolakan <span
+                        class="text-red-500">*</span></label>
+                <textarea name="rejection_reason" class="form-input" rows="4" placeholder="Masukkan alasan penolakan..."
+                    required></textarea>
             </div>
-            <div style="display: flex; gap: 10px; justify-content: flex-end;">
-                <button type="button" class="btn btn-secondary" onclick="hideRejectModal()">Batal</button>
-                <button type="submit" class="btn btn-danger">Tolak Laporan</button>
+            <div class="flex gap-3 justify-end">
+                <button type="button" onclick="document.getElementById('rejectModal').classList.add('hidden')"
+                    class="px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors duration-150">
+                    Batal
+                </button>
+                <button type="submit"
+                    class="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors duration-150">
+                    Tolak Laporan
+                </button>
             </div>
         </form>
     </div>
 </div>
-
-<script>
-    function showRejectModal() {
-    document.getElementById('rejectModal').style.display = 'flex';
-}
-
-function hideRejectModal() {
-    document.getElementById('rejectModal').style.display = 'none';
-}
-</script>
 @endif
 @endsection
