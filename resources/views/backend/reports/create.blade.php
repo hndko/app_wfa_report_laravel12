@@ -246,28 +246,32 @@
                     return;
                 }
 
-                // Create preview for images
-                const fileObj = {
-                    file: file,
-                    name: file.name,
-                    size: file.size,
-                    type: file.type,
-                    preview: null
-                };
-
                 if (file.type.startsWith('image/')) {
+                    // For images, wait for preview then add
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        fileObj.preview = e.target.result;
+                        this.files.push({
+                            file: file,
+                            name: file.name,
+                            size: file.size,
+                            type: file.type,
+                            preview: e.target.result
+                        });
+                        this.updateFileInput();
                     };
                     reader.readAsDataURL(file);
+                } else {
+                    // For PDFs, add immediately
+                    this.files.push({
+                        file: file,
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        preview: null
+                    });
+                    this.updateFileInput();
                 }
-
-                this.files.push(fileObj);
             });
-
-            // Update the file input with DataTransfer
-            this.updateFileInput();
         },
 
         removeFile(index) {

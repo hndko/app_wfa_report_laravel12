@@ -287,26 +287,30 @@
                     return;
                 }
 
-                const fileObj = {
-                    file: file,
-                    name: file.name,
-                    size: file.size,
-                    type: file.type,
-                    preview: null
-                };
-
                 if (file.type.startsWith('image/')) {
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        fileObj.preview = e.target.result;
+                        this.files.push({
+                            file: file,
+                            name: file.name,
+                            size: file.size,
+                            type: file.type,
+                            preview: e.target.result
+                        });
+                        this.updateFileInput();
                     };
                     reader.readAsDataURL(file);
+                } else {
+                    this.files.push({
+                        file: file,
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        preview: null
+                    });
+                    this.updateFileInput();
                 }
-
-                this.files.push(fileObj);
             });
-
-            this.updateFileInput();
         },
 
         removeFile(index) {
