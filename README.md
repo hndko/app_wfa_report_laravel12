@@ -1,212 +1,137 @@
 # WFA Report System
 
-Sistem Laporan Kerja Work From Anywhere (WFA) untuk pegawai outsourcing lembaga pemerintah.
+🚀 **Sistem Laporan Kerja Work From Anywhere (WFA)** untuk pegawai dengan fitur approval workflow, export PDF, dan dashboard analytics.
 
-## 📋 Tentang Proyek
+[![Laravel](https://img.shields.io/badge/Laravel-12-red.svg)](https://laravel.com)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.0-blue.svg)](https://tailwindcss.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-purple.svg)](https://php.net)
 
-Aplikasi web berbasis Laravel 12 yang memudahkan pegawai untuk membuat laporan kerja harian saat WFA, dan memudahkan admin untuk mengelola serta menyetujui laporan tersebut.
+## ✨ Features
 
-## 🚀 Teknologi
+-   🔐 **Role-based Access** - Superadmin & User roles with different permissions
+-   📝 **Report Management** - Create, edit, submit daily work reports with attachments
+-   ✅ **Approval Workflow** - Optional approval system (can be toggled on/off)
+-   📤 **Drag & Drop Upload** - Multiple image upload with live preview
+-   📊 **Export PDF** - Standard & detailed report formats
+-   📈 **Dashboard Analytics** - Statistics & monthly report charts
+-   🎨 **Modern UI** - Tailwind CSS with responsive design
+-   🌙 **Settings Panel** - Configurable application settings
 
--   **Framework**: Laravel 12
--   **PHP**: 8.2.29
--   **Database**: SQLite (development)
--   **Frontend**: Blade Templates + Vanilla CSS
+## 🛠️ Tech Stack
 
-## 📦 Struktur Database
+-   **Backend**: Laravel 12, PHP 8.2+
+-   **Frontend**: Tailwind CSS 4.0, Alpine.js
+-   **Database**: MySQL / SQLite
+-   **Build Tool**: Vite
+-   **PDF Export**: DomPDF
+-   **Excel Export**: Maatwebsite Excel
 
-### Tabel Users
+## 📦 Installation
 
-Menyimpan data pengguna dengan role (superadmin/user)
+```bash
+# Clone repository
+git clone https://github.com/your-repo/wfa-report-system.git
+cd wfa-report-system
 
--   Role-based access control
--   Informasi pegawai (NIP, jabatan, unit kerja)
--   Status aktif/non-aktif
+# Install dependencies
+composer install
+npm install
 
-### Tabel Reports
+# Setup environment
+cp .env.example .env
+php artisan key:generate
 
-Menyimpan laporan kerja WFA
+# Database setup
+php artisan migrate:fresh --seed
+php artisan storage:link
 
--   Tanggal, jam mulai/selesai, lokasi kerja
--   Deskripsi kegiatan dan hasil kerja
--   Status: draft → submitted → approved/rejected
--   Approval tracking
+# Build assets
+npm run build
 
-### Tabel Report Attachments
+# Start server
+php artisan serve
+```
 
-Menyimpan bukti kerja (screenshot/foto)
-
--   Multiple attachments per report
--   File metadata (nama, ukuran, tipe)
-
-## 👥 Role & Fitur
-
-### Superadmin
-
-✅ **Dashboard**: Statistik total user, laporan hari ini, pending approval
-✅ **User Management**: CRUD users, activate/deactivate
-✅ **Report Management**: View semua laporan, filter, approve/reject
-✅ **Export**: Laporan ke Excel/PDF per periode
-
-### User (Pegawai)
-
-✅ **Dashboard**: Statistik personal, quick create laporan
-✅ **Create Report**: Input laporan harian dengan lampiran
-✅ **Edit/Delete**: Modifikasi laporan draft/rejected
-✅ **View History**: Riwayat laporan dengan status
-✅ **Profile**: Update data diri dan password
-
-## 🔐 Default Accounts
+## 👤 Default Accounts
 
 | Role       | Email             | Password |
 | ---------- | ----------------- | -------- |
 | Superadmin | admin@example.com | password |
-| User Demo  | user@example.com  | password |
+| User       | user@example.com  | password |
 
-## 🛠️ Setup & Installation
+## 📱 Screenshots
 
-### Prerequisites
+### Dashboard
 
--   PHP 8.2+
--   Composer
--   SQLite (atau MySQL untuk production)
+Modern dashboard with statistics cards and recent reports table.
 
-### Instalasi
+### Report Form
 
-```bash
-# Clone atau navigate ke project directory
-cd /Applications/ServBay/www/app_wfa_report_laravel12
+Drag & drop file upload with live preview support.
 
-# Install dependencies
-composer install
+### PDF Export
 
-# Copy environment file
-cp .env.example .env
+Two report formats: Standard (simple) and Detailed (with background, objectives, evaluation).
 
-# Generate application key
-php artisan key:generate
+## 🔧 Configuration
 
-# Create database
-touch database/database.sqlite
+### Approval Toggle
 
-# Run migrations & seeders
-php artisan migrate:fresh --seed
+Superadmin can enable/disable the approval workflow from Settings page:
 
-# Create storage link (untuk upload file)
-php artisan storage:link
+-   **OFF**: Reports are auto-approved on submit
+-   **ON**: Reports require admin approval
 
-# Start development server
-php artisan serve
-```
+### Settings
 
-Aplikasi akan berjalan di: `http://localhost:8000`
+-   Application name
+-   Application description
+-   Approval workflow toggle
 
-## 📱 Cara Penggunaan
-
-### Login
-
-1. Buka `http://localhost:8000/login`
-2. Gunakan salah satu akun default di atas
-3. Anda akan diarahkan ke dashboard sesuai role
-
-### User - Membuat Laporan
-
-1. Login sebagai user
-2. Klik "Buat Laporan Baru"
-3. Isi form:
-    - Tanggal laporan
-    - Jam mulai & selesai
-    - Lokasi kerja WFA
-    - Deskripsi kegiatan
-    - Hasil kerja
-    - Upload bukti (screenshot/foto)
-4. Simpan sebagai draft atau submit langsung
-5. Laporan submitted akan menunggu approval
-
-### Superadmin - Approve Laporan
-
-1. Login sebagai superadmin
-2. Buka menu "Laporan"
-3. Filter laporan yang pending
-4. Klik detail laporan
-5. Approve atau Reject dengan alasan
-
-## 📝 Status Development
-
-### ✅ Completed
-
--   [x] Laravel 12 installation dengan PHP 8.2
--   [x] Database migrations (users, reports, attachments)
--   [x] Model relationships & scopes
--   [x] Authentication system (LoginController)
--   [x] Role-based middleware
--   [x] Route structure (auth, superadmin, user)
--   [x] Database seeder dengan default accounts
--   [x] Controller scaffolding (Dashboard, Users, Reports, Profile)
-
-### 🚧 In Progress
-
--   [ ] Controller logic implementation
--   [ ] Blade views & layouts
--   [ ] File upload handling
--   [ ] Export Excel/PDF functionality
--   [ ] UI/UX styling
-
-### 📋 Planned
-
--   [ ] Email notifications
--   [ ] Advanced filtering & search
--   [ ] Report analytics & charts
--   [ ] Mobile responsive optimization
--   [ ] API endpoints (optional)
-
-## 🗂️ Struktur Folder
+## 📁 Project Structure
 
 ```
-app_wfa_report_laravel12/
 ├── app/
-│   ├── Http/
-│   │   ├── Controllers/
-│   │   │   ├── Auth/
-│   │   │   │   └── LoginController.php
-│   │   │   ├── Superadmin/
-│   │   │   │   ├── DashboardController.php
-│   │   │   │   ├── UserController.php
-│   │   │   │   └── ReportController.php
-│   │   │   └── User/
-│   │   │       ├── DashboardController.php
-│   │   │       ├── ReportController.php
-│   │   │       └── ProfileController.php
-│   │   └── Middleware/
-│   │       └── RoleMiddleware.php
-│   └── Models/
-│       ├── User.php
-│       ├── Report.php
-│       └── ReportAttachment.php
+│   ├── Http/Controllers/Backend/
+│   │   ├── DashboardController.php
+│   │   ├── ReportController.php
+│   │   ├── UserController.php
+│   │   ├── ProfileController.php
+│   │   └── SettingController.php
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Report.php
+│   │   ├── ReportAttachment.php
+│   │   └── Setting.php
+│   └── Exports/
+│       └── ReportsExport.php
 ├── database/
 │   ├── migrations/
 │   └── seeders/
-└── routes/
-    └── web.php
+│       ├── UserSeeder.php
+│       ├── SettingSeeder.php
+│       └── ReportSeeder.php
+├── resources/
+│   ├── views/
+│   │   ├── layouts/
+│   │   ├── auth/
+│   │   └── backend/
+│   ├── css/app.css
+│   └── js/app.js
+└── routes/web.php
 ```
 
-## 🔄 Development Workflow
+## 🔒 Security
 
-1. **Tambah Fitur Baru**: Buat migration → Model → Controller → View
-2. **Update Database**: `php artisan migrate`
-3. **Reset Database**: `php artisan migrate:fresh --seed`
-4. **Testing**: Manual testing per role & feature
+-   CSRF protection on all forms
+-   Role-based middleware for route protection
+-   Validated file uploads (2MB max, images/PDF only)
+-   Password hashing with bcrypt
 
-## 📞 Support
+## 📝 License
 
-Untuk pertanyaan atau issue, silakan hubungi tim development.
-
-## 📄 License
-
-Proprietary - Internal use only untuk lembaga pemerintah terkait.
+This project is proprietary software.
 
 ---
 
-**Version**: 1.0.0-dev
-**Last Updated**: 2025-12-24
-**Developer**: AI Assistant
+**Developed with ❤️ using Laravel & Tailwind CSS**
