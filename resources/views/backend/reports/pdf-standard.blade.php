@@ -84,8 +84,45 @@
             white-space: pre-wrap;
         }
 
-        .footer {
+        .signature-area {
             margin-top: 40px;
+            width: 100%;
+        }
+
+        .signature-table {
+            width: 100%;
+        }
+
+        .signature-table td {
+            width: 50%;
+            text-align: center;
+            vertical-align: top;
+            padding: 0 20px;
+        }
+
+        .signature-table .sig-title {
+            font-size: 11px;
+            margin-bottom: 50px;
+        }
+
+        .signature-table .sig-line {
+            border-top: 1px solid #333;
+            width: 150px;
+            margin: 0 auto 5px;
+        }
+
+        .signature-table .sig-name {
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .signature-table .sig-position {
+            font-size: 10px;
+            color: #64748b;
+        }
+
+        .footer {
+            margin-top: 30px;
             text-align: center;
             font-size: 10px;
             color: #9ca3af;
@@ -151,6 +188,27 @@
         <div class="section-content">{{ $report->notes }}</div>
     </div>
     @endif
+
+    <!-- TANDA TANGAN -->
+    <div class="signature-area">
+        <table class="signature-table">
+            <tr>
+                <td>
+                    <div class="sig-title">Yang Membuat Laporan,</div>
+                    <div class="sig-line"></div>
+                    <div class="sig-name">{{ $report->user->name }}</div>
+                    <div class="sig-position">{{ $report->user->position }}</div>
+                </td>
+                <td>
+                    <div class="sig-title">Mengetahui,</div>
+                    <div class="sig-line"></div>
+                    <div class="sig-name">{{ $report->approver ? $report->approver->name :
+                        '.............................' }}</div>
+                    <div class="sig-position">Atasan Langsung</div>
+                </td>
+            </tr>
+        </table>
+    </div>
 
     <div class="footer">
         <p>Dokumen ini digenerate secara otomatis oleh WFA Report System</p>

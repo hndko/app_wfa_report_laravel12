@@ -158,13 +158,11 @@
                                     </div>
                                 </div>
 
-                                @if(in_array($report->status, ['draft', 'rejected']))
                                 <a href="{{ route('my.reports.edit', $report->id) }}"
                                     class="inline-flex items-center px-2 py-1 bg-yellow-600 text-white text-xs font-medium rounded hover:bg-yellow-700 transition-colors duration-150"
                                     title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                @endif
                                 @if($report->status === 'draft')
                                 <form action="{{ route('my.reports.submit', $report->id) }}" method="POST"
                                     class="inline-block" onsubmit="return confirm('Yakin ingin submit laporan ini?')">
