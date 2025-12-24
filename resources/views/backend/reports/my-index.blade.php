@@ -127,6 +127,37 @@
                                     title="Lihat">
                                     <i class="fas fa-eye"></i>
                                 </a>
+
+                                <!-- PDF Export Dropdown -->
+                                <div class="relative" x-data="{ open: false }">
+                                    <button @click="open = !open" type="button"
+                                        class="inline-flex items-center px-2 py-1 bg-red-600 text-white text-xs font-medium rounded hover:bg-red-700 transition-colors duration-150"
+                                        title="Export PDF">
+                                        <i class="fas fa-file-pdf"></i>
+                                        <i class="fas fa-chevron-down ml-1 text-[10px]"></i>
+                                    </button>
+                                    <div x-show="open" @click.away="open = false"
+                                        x-transition:enter="transition ease-out duration-100"
+                                        x-transition:enter-start="transform opacity-0 scale-95"
+                                        x-transition:enter-end="transform opacity-100 scale-100"
+                                        x-transition:leave="transition ease-in duration-75"
+                                        x-transition:leave-start="transform opacity-100 scale-100"
+                                        x-transition:leave-end="transform opacity-0 scale-95"
+                                        class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg py-1 z-50 border border-gray-200"
+                                        style="display: none;">
+                                        <a href="{{ route('my.reports.pdf.standard', $report->id) }}" target="_blank"
+                                            class="flex items-center px-3 py-2 text-xs text-gray-700 hover:bg-gray-100">
+                                            <i class="fas fa-file-alt mr-2 text-gray-400"></i>
+                                            Report Standar
+                                        </a>
+                                        <a href="{{ route('my.reports.pdf.detailed', $report->id) }}" target="_blank"
+                                            class="flex items-center px-3 py-2 text-xs text-gray-700 hover:bg-gray-100">
+                                            <i class="fas fa-file-contract mr-2 text-gray-400"></i>
+                                            Report Lengkap
+                                        </a>
+                                    </div>
+                                </div>
+
                                 @if(in_array($report->status, ['draft', 'rejected']))
                                 <a href="{{ route('my.reports.edit', $report->id) }}"
                                     class="inline-flex items-center px-2 py-1 bg-yellow-600 text-white text-xs font-medium rounded hover:bg-yellow-700 transition-colors duration-150"

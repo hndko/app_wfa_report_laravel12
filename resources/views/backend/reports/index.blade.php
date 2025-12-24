@@ -168,10 +168,41 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
-                            <a href="{{ route('reports.show', $report->id) }}"
-                                class="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-md hover:bg-blue-700 transition-colors duration-150">
-                                <i class="fas fa-eye mr-1"></i> Lihat
-                            </a>
+                            <div class="flex items-center gap-2">
+                                <a href="{{ route('reports.show', $report->id) }}"
+                                    class="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-md hover:bg-blue-700 transition-colors duration-150">
+                                    <i class="fas fa-eye mr-1"></i> Lihat
+                                </a>
+
+                                <!-- PDF Export Dropdown -->
+                                <div class="relative" x-data="{ open: false }">
+                                    <button @click="open = !open" type="button"
+                                        class="inline-flex items-center px-3 py-1.5 bg-red-600 text-white text-xs font-medium rounded-md hover:bg-red-700 transition-colors duration-150">
+                                        <i class="fas fa-file-pdf mr-1"></i> PDF
+                                        <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                                    </button>
+                                    <div x-show="open" @click.away="open = false"
+                                        x-transition:enter="transition ease-out duration-100"
+                                        x-transition:enter-start="transform opacity-0 scale-95"
+                                        x-transition:enter-end="transform opacity-100 scale-100"
+                                        x-transition:leave="transition ease-in duration-75"
+                                        x-transition:leave-start="transform opacity-100 scale-100"
+                                        x-transition:leave-end="transform opacity-0 scale-95"
+                                        class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50 border border-gray-200"
+                                        style="display: none;">
+                                        <a href="{{ route('reports.pdf.standard', $report->id) }}" target="_blank"
+                                            class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            <i class="fas fa-file-alt mr-2 text-gray-400"></i>
+                                            Report Standar
+                                        </a>
+                                        <a href="{{ route('reports.pdf.detailed', $report->id) }}" target="_blank"
+                                            class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            <i class="fas fa-file-contract mr-2 text-gray-400"></i>
+                                            Report Lengkap
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

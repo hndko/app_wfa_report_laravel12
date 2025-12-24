@@ -109,8 +109,14 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
         // EXPORT EXCEL: Export reports to Excel
         Route::get('/export/excel', [ReportController::class, 'exportExcel'])->name('export.excel');
 
-        // EXPORT PDF: Export reports to PDF
+        // EXPORT PDF: Export reports to PDF (bulk)
         Route::get('/export/pdf', [ReportController::class, 'exportPdf'])->name('export.pdf');
+
+        // EXPORT PDF SINGLE: Standard report
+        Route::get('/pdf/standard/{id}', [ReportController::class, 'pdfStandard'])->name('pdf.standard');
+
+        // EXPORT PDF SINGLE: Detailed report
+        Route::get('/pdf/detailed/{id}', [ReportController::class, 'pdfDetailed'])->name('pdf.detailed');
     });
 });
 
@@ -150,6 +156,12 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
         // DELETE ATTACHMENT: Remove attachment from report
         Route::post('/attachments/delete/{id}', [ReportController::class, 'deleteAttachment'])->name('attachment.delete');
+
+        // EXPORT PDF: Standard report
+        Route::get('/pdf/standard/{id}', [ReportController::class, 'myPdfStandard'])->name('pdf.standard');
+
+        // EXPORT PDF: Detailed report
+        Route::get('/pdf/detailed/{id}', [ReportController::class, 'myPdfDetailed'])->name('pdf.detailed');
     });
 
     // PROFILE MANAGEMENT

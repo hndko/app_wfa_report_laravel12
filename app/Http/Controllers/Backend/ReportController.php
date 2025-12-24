@@ -471,4 +471,82 @@ class ReportController extends Controller
 
         return $pdf->download($filename);
     }
+
+    /**
+     * Export single report to PDF - Standard format
+     * NOTE: Superadmin only
+     */
+    public function pdfStandard($id)
+    {
+        $report = Report::with(['user', 'attachments'])->findOrFail($id);
+
+        $pdf = \PDF::loadView('backend.reports.pdf-standard', [
+            'report' => $report,
+        ]);
+
+        $filename = 'laporan_' . $report->user->name . '_' . $report->report_date->format('Y-m-d') . '.pdf';
+
+        return $pdf->stream($filename);
+    }
+
+    /**
+     * Export single report to PDF - Detailed format
+     * NOTE: Superadmin only, includes background, objectives, problems, solutions, evaluation
+     */
+    public function pdfDetailed($id)
+    {
+        $report = Report::with(['user', 'attachments'])->findOrFail($id);
+
+        $pdf = \PDF::loadView('backend.reports.pdf-detailed', [
+            'report' => $report,
+        ]);
+
+        $filename = 'laporan_lengkap_' . $report->user->name . '_' . $report->report_date->format('Y-m-d') . '.pdf';
+
+        return $pdf->stream($filename);
+    }
+
+    /**
+     * Export user's own report to PDF - Standard format
+     * NOTE: User role only, own reports
+     */
+    public function myPdfStandard($id)
+    {
+        $report = Report::with('attachments')
+            ->where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $report->load('user');
+
+        $pdf = \PDF::loadView('backend.reports.pdf-standard', [
+            'report' => $report,
+        ]);
+
+        $filename = 'laporan_' . $report->report_date->format('Y-m-d') . '.pdf';
+
+        return $pdf->stream($filename);
+    }
+
+    /**
+     * Export user's own report to PDF - Detailed format
+     * NOTE: User role only, own reports
+     */
+    public function myPdfDetailed($id)
+    {
+        $report = Report::with('attachments')
+            ->where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $report->load('user');
+
+        $pdf = \PDF::loadView('backend.reports.pdf-detailed', [
+            'report' => $report,
+        ]);
+
+        $filename = 'laporan_lengkap_' . $report->report_date->format('Y-m-d') . '.pdf';
+
+        return $pdf->stream($filename);
+    }
 }
