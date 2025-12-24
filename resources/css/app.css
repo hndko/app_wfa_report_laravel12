@@ -1,15 +1,25 @@
+/* ===========================
+   WFA Report System - Tailwind CSS Configuration
+   =========================== */
+
+/* Import Tailwind CSS */
 @import "tailwindcss";
 
+/* Import FontAwesome from npm */
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+/* Import Toastr from npm */
+@import "toastr/build/toastr.min.css";
+
+/* Source files for Tailwind scanning */
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-/* Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
-
+/* Custom Theme Configuration */
 @theme {
-    /* Typography */
+    /* Typography - Using system fonts with Inter as preferred */
     --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
@@ -38,6 +48,25 @@
     --radius-card: 0.5rem;
 }
 
+/* Base Styles */
+@layer base {
+    /* Add cursor pointer to all interactive elements */
+    a,
+    button,
+    [role="button"],
+    input[type="submit"],
+    input[type="button"],
+    input[type="reset"],
+    select {
+        cursor: pointer;
+    }
+
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
 /* Custom Utilities */
 @layer utilities {
     .sidebar-transition {
@@ -47,13 +76,21 @@
     .content-transition {
         transition: margin-left 0.3s ease-in-out;
     }
+
+    .gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .gradient-primary-hover:hover {
+        background: linear-gradient(135deg, #5568d3 0%, #6a3d8a 100%);
+    }
 }
 
 /* Custom Components */
 @layer components {
     .btn-gradient {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        @apply text-white font-medium py-2 px-4 rounded-lg transition-all duration-200;
+        @apply text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 cursor-pointer;
     }
 
     .btn-gradient:hover {
@@ -70,14 +107,43 @@
     }
 
     .form-input {
-        @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+        @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 outline-none;
     }
 
     .form-select {
-        @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 bg-white;
+        @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 bg-white outline-none cursor-pointer;
     }
 
     .badge-status {
         @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
+    }
+
+    /* Button base styles */
+    .btn {
+        @apply inline-flex items-center justify-center px-4 py-2 font-medium rounded-lg transition-all duration-200 cursor-pointer;
+    }
+
+    .btn-primary {
+        @apply bg-blue-600 text-white hover:bg-blue-700;
+    }
+
+    .btn-secondary {
+        @apply bg-gray-600 text-white hover:bg-gray-700;
+    }
+
+    .btn-success {
+        @apply bg-green-600 text-white hover:bg-green-700;
+    }
+
+    .btn-danger {
+        @apply bg-red-600 text-white hover:bg-red-700;
+    }
+
+    .btn-warning {
+        @apply bg-yellow-600 text-white hover:bg-yellow-700;
+    }
+
+    .btn-sm {
+        @apply px-2 py-1 text-xs;
     }
 }
