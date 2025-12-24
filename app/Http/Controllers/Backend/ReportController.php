@@ -212,14 +212,13 @@ class ReportController extends Controller
 
     /**
      * Show edit report form
-     * NOTE: User role only, can edit draft/rejected only
+     * NOTE: User role only, can edit any of their own reports
      */
     public function edit($id)
     {
         $report = Report::with('attachments')
             ->where('id', $id)
             ->where('user_id', auth()->id())
-            ->whereIn('status', ['draft', 'rejected'])
             ->firstOrFail();
 
         $data = [
@@ -233,14 +232,13 @@ class ReportController extends Controller
 
     /**
      * Update report with new attachments
-     * NOTE: User role only, can update draft/rejected only
+     * NOTE: User role only, can update any of their own reports
      * If approval is disabled, auto-approve on submit
      */
     public function update(Request $request, $id)
     {
         $report = Report::where('id', $id)
             ->where('user_id', auth()->id())
-            ->whereIn('status', ['draft', 'rejected'])
             ->firstOrFail();
 
         $validated = $request->validate([

@@ -128,10 +128,14 @@
             </h4>
             <div
                 class="bg-{{ $report->status === 'approved' ? 'green' : 'red' }}-50 border border-{{ $report->status === 'approved' ? 'green' : 'red' }}-200 rounded-lg p-4 space-y-2">
+                @if($report->approver)
                 <p class="text-sm"><strong class="font-semibold">Diproses oleh:</strong> {{ $report->approver->name }}
                 </p>
+                @endif
+                @if($report->approved_at)
                 <p class="text-sm"><strong class="font-semibold">Tanggal:</strong> {{ $report->approved_at->format('d F
                     Y H:i') }}</p>
+                @endif
                 @if($report->rejection_reason)
                 <p class="text-sm"><strong class="font-semibold">Alasan:</strong> {{ $report->rejection_reason }}</p>
                 @endif
