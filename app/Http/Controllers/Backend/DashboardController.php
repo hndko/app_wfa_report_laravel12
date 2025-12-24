@@ -39,15 +39,15 @@ class DashboardController extends Controller
 
                 // Monthly report statistics
                 'monthly_stats' => Report::selectRaw('
-                        strftime("%Y-%m", report_date) as month,
+                        DATE_FORMAT(report_date, "%Y-%m") as month,
                         COUNT(*) as total,
                         SUM(CASE WHEN status = "approved" THEN 1 ELSE 0 END) as approved,
                         SUM(CASE WHEN status = "rejected" THEN 1 ELSE 0 END) as rejected,
                         SUM(CASE WHEN status = "submitted" THEN 1 ELSE 0 END) as pending
                     ')
                     ->whereYear('report_date', Carbon::now()->year)
-                    ->groupByRaw('strftime("%Y-%m", report_date)')
-                    ->orderByRaw('strftime("%Y-%m", report_date) desc')
+                    ->groupByRaw('DATE_FORMAT(report_date, "%Y-%m")')
+                    ->orderByRaw('DATE_FORMAT(report_date, "%Y-%m") desc')
                     ->limit(6)
                     ->get(),
             ];
