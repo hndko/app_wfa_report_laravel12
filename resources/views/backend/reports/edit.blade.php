@@ -162,22 +162,76 @@
             </div>
             @endif
 
-            <!-- New Attachments -->
-            <div>
+            <!-- New Attachments with Drag & Drop -->
+            <div x-data="fileUpload()">
                 <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-plus-circle mr-1"></i>
                     Tambah Lampiran Baru
                 </label>
-                <div class="relative">
-                    <div class="absolute top-3 left-3 pointer-events-none">
-                        <i class="fas fa-paperclip text-gray-400"></i>
+
+                <!-- Drop Zone -->
+                <div @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false"
+                    @drop.prevent="handleDrop($event)"
+                    :class="dragover ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-50'"
+                    class="relative border-2 border-dashed rounded-lg p-6 text-center transition-colors duration-200 cursor-pointer hover:border-blue-400 hover:bg-blue-50"
+                    @click="$refs.fileInput.click()">
+
+                    <input type="file" name="attachments[]" x-ref="fileInput" @change="handleFiles($event)" multiple
+                        accept="image/*,application/pdf" class="hidden">
+
+                    <div class="space-y-2">
+                        <div class="text-gray-400">
+                            <i class="fas fa-cloud-upload-alt text-4xl"></i>
+                        </div>
+                        <p class="text-sm text-gray-600">
+                            <span class="font-semibold text-blue-600">Klik untuk upload</span> atau drag & drop file di
+                            sini
+                        </p>
+                        <p class="text-xs text-gray-500">
+                            Maksimal 2MB per file. Format: JPG, PNG, PDF
+                        </p>
                     </div>
-                    <input type="file" name="attachments[]" class="form-input pl-10" multiple
-                        accept="image/*,application/pdf">
                 </div>
-                <p class="mt-2 text-sm text-gray-500">
-                    <i class="fas fa-info-circle mr-1"></i>
-                    Maksimal 2MB per file. Format: JPG, PNG, PDF
-                </p>
+
+                <!-- Preview Grid -->
+                <div x-show="files.length > 0" class="mt-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm font-medium text-gray-700">
+                            <i class="fas fa-images mr-1"></i>
+                            File Baru (<span x-text="files.length"></span> file)
+                        </span>
+                        <button type="button" @click="clearAll()" class="text-xs text-red-600 hover:text-red-800">
+                            <i class="fas fa-trash-alt mr-1"></i> Hapus Semua
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                        <template x-for="(file, index) in files" :key="index">
+                            <div class="relative group">
+                                <div
+                                    class="aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                                    <template x-if="file.type.startsWith('image/')">
+                                        <img :src="file.preview" class="w-full h-full object-cover">
+                                    </template>
+                                    <template x-if="file.type === 'application/pdf'">
+                                        <div class="w-full h-full flex flex-col items-center justify-center bg-red-50">
+                                            <i class="fas fa-file-pdf text-3xl text-red-500"></i>
+                                            <span class="text-xs text-gray-600 mt-1 px-1 truncate w-full text-center"
+                                                x-text="file.name"></span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <button type="button" @click="removeFile(index)"
+                                    class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full text-xs hover:bg-red-600 shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <div
+                                    class="absolute bottom-1 left-1 bg-black/60 text-white text-xs px-1.5 py-0.5 rounded">
+                                    <span x-text="formatSize(file.size)"></span>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
             </div>
 
             <!-- Action Buttons -->
@@ -202,3 +256,81 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    function fileUpload() {
+    return {
+        dragover: false,
+        files: [],
+
+        handleFiles(event) {
+            const newFiles = Array.from(event.target.files);
+            this.addFiles(newFiles);
+        },
+
+        handleDrop(event) {
+            this.dragover = false;
+            const newFiles = Array.from(event.dataTransfer.files);
+            this.addFiles(newFiles);
+        },
+
+        addFiles(newFiles) {
+            newFiles.forEach(file => {
+                if (file.size > 2 * 1024 * 1024) {
+                    alert(`File "${file.name}" terlalu besar. Maksimal 2MB.`);
+                    return;
+                }
+
+                if (!file.type.startsWith('image/') && file.type !== 'application/pdf') {
+                    alert(`File "${file.name}" tidak didukung. Hanya JPG, PNG, PDF.`);
+                    return;
+                }
+
+                const fileObj = {
+                    file: file,
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    preview: null
+                };
+
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        fileObj.preview = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+                this.files.push(fileObj);
+            });
+
+            this.updateFileInput();
+        },
+
+        removeFile(index) {
+            this.files.splice(index, 1);
+            this.updateFileInput();
+        },
+
+        clearAll() {
+            this.files = [];
+            this.$refs.fileInput.value = '';
+        },
+
+        updateFileInput() {
+            const dt = new DataTransfer();
+            this.files.forEach(f => dt.items.add(f.file));
+            this.$refs.fileInput.files = dt.files;
+        },
+
+        formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+    }
+}
+</script>
+@endpush
