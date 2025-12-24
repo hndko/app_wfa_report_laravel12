@@ -20,49 +20,61 @@ class ReportSeeder extends Seeder
         // Get all users (not superadmin)
         $users = User::where('role', 'user')->get();
 
-        // Sample activities
+        // IT Helpdesk activities
         $activities = [
-            'Mengerjakan laporan bulanan, koordinasi dengan tim development, review dokumen project',
-            'Meeting dengan client untuk diskusi requirement, dokumentasi hasil meeting',
-            'Coding fitur baru untuk aplikasi, unit testing, bug fixing',
-            'Analisis data penjualan Q4, membuat presentasi untuk management',
-            'Training online tentang teknologi baru, dokumentasi hasil training',
-            'Review code dari tim, mentoring junior developer, standup meeting',
-            'Membuat proposal untuk project baru, riset teknologi yang akan digunakan',
-            'Koordinasi dengan vendor, follow up progress development',
-            'Testing aplikasi, membuat test case, dokumentasi bug',
-            'Membuat dokumentasi teknis, update wiki internal',
+            'Menangani tiket helpdesk terkait troubleshooting laptop user yang tidak bisa connect WiFi, melakukan reset network adapter dan update driver wireless',
+            'Instalasi software Microsoft Office 365 dan konfigurasi email Outlook untuk 3 user baru, setup OneDrive sync dan Teams desktop app',
+            'Troubleshooting printer jaringan di lantai 2 yang paper jam, cleaning roller dan test print dokumen',
+            'Backup data user sebelum reimaging laptop, proses reimaging Windows 11, restore data dan instalasi aplikasi standar kantor',
+            'Support meeting online via Zoom/Teams, troubleshoot audio/video issues, setup screen sharing untuk presentasi',
+            'Menangani request reset password Active Directory dan email, verifikasi identitas user melalui telepon',
+            'Inventarisasi aset IT, update database asset management, labeling perangkat baru yang masuk',
+            'Monitoring sistem jaringan dan server, cek log security, update antivirus definition pada endpoint',
+            'Konfigurasi VPN untuk remote user, troubleshoot koneksi VPN yang putus-putus, cek firewall rules',
+            'Dokumentasi SOP troubleshooting, update knowledge base internal, training user baru tentang tools IT',
         ];
 
         $results = [
-            'Laporan bulanan selesai 100%, dokumen project sudah direview',
-            'Requirement sudah terdokumentasi dengan baik, client menyetujui timeline',
-            'Fitur baru sudah selesai dan lolos unit testing',
-            'Presentasi sudah siap untuk meeting dengan management',
-            'Sertifikat training sudah diterima, knowledge sharing dijadwalkan',
-            'Code review selesai, 3 pull request sudah di-merge',
-            'Proposal selesai dibuat, menunggu approval dari management',
-            'Progress development sesuai timeline, tidak ada blocker',
-            'Testing selesai, 5 bug ditemukan dan sudah dilaporkan',
-            'Dokumentasi teknis sudah diupdate di wiki internal',
+            'Masalah WiFi terselesaikan, user dapat bekerja kembali dengan normal. Tiket ditutup dengan status resolved',
+            'Instalasi selesai 100%, email sudah bisa diakses, OneDrive sync berjalan. User sudah bisa WFH dengan baik',
+            'Printer sudah berfungsi normal, test print berhasil 10 halaman tanpa kendala',
+            'Laptop berhasil di-reimaging, semua data user aman, aplikasi standar sudah terinstall dan berjalan lancar',
+            'Meeting berjalan lancar tanpa kendala teknis, peserta meeting puas dengan support yang diberikan',
+            'Password berhasil di-reset, user dapat login kembali ke sistem, reminder untuk ganti password sudah disampaikan',
+            'Database asset updated, 15 perangkat baru sudah di-input dan diberi label, laporan inventaris bulan ini selesai',
+            'Tidak ada anomali security terdeteksi, antivirus semua endpoint sudah up-to-date, sistem berjalan normal',
+            'VPN user berhasil dikonfigurasi dan stabil, koneksi ke file server lancar, RDP ke workstation berhasil',
+            'Dokumentasi SOP selesai dibuat, knowledge base ditambah 5 artikel baru, 2 user baru sudah ditraining',
         ];
 
         $locations = [
             'Rumah - Jakarta Selatan',
             'Rumah - Jakarta Barat',
-            'Coffee Shop - BSD',
+            'Rumah - Jakarta Timur',
             'Co-working Space - Sudirman',
             'Rumah - Tangerang',
             'Rumah - Bekasi',
-            'Perpustakaan - UI Depok',
+            'Rumah - Depok',
+        ];
+
+        $notes = [
+            'Perlu follow up user besok untuk memastikan tidak ada kendala lanjutan',
+            'Request tambahan lisensi software sudah diteruskan ke procurement',
+            'Beberapa user masih belum update password, reminder sudah dikirim via email',
+            'Stok kabel LAN menipis, sudah dibuatkan PR untuk pengadaan',
+            null,
+            null,
+            'Koordinasi dengan vendor untuk maintenance rutin perangkat',
+            null,
         ];
 
         foreach ($users as $user) {
             // Create 5 reports for each user
             for ($i = 0; $i < 5; $i++) {
                 $reportDate = Carbon::now()->subDays(rand(1, 30));
-                $startHour = rand(8, 10);
-                $endHour = rand(16, 18);
+                $startHour = rand(8, 9);
+                $endHour = rand(16, 17);
+                $activityIndex = array_rand($activities);
 
                 Report::create([
                     'user_id' => $user->id,
@@ -70,22 +82,23 @@ class ReportSeeder extends Seeder
                     'start_time' => sprintf('%02d:00', $startHour),
                     'end_time' => sprintf('%02d:00', $endHour),
                     'work_location' => $locations[array_rand($locations)],
-                    'activities' => $activities[array_rand($activities)],
-                    'results' => $results[array_rand($results)],
-                    'notes' => rand(0, 1) ? 'Tidak ada kendala berarti hari ini.' : null,
+                    'activities' => $activities[$activityIndex],
+                    'results' => $results[$activityIndex],
+                    'notes' => $notes[array_rand($notes)],
                     'status' => 'approved',
                     'approved_at' => $reportDate->addHours(rand(1, 24)),
                 ]);
             }
         }
 
-        // Also create reports for superadmin (optional - for testing)
+        // Also create reports for superadmin (for testing)
         $superadmin = User::where('role', 'superadmin')->first();
         if ($superadmin) {
             for ($i = 0; $i < 5; $i++) {
                 $reportDate = Carbon::now()->subDays(rand(1, 30));
-                $startHour = rand(8, 10);
-                $endHour = rand(16, 18);
+                $startHour = rand(8, 9);
+                $endHour = rand(16, 17);
+                $activityIndex = array_rand($activities);
 
                 Report::create([
                     'user_id' => $superadmin->id,
@@ -93,9 +106,9 @@ class ReportSeeder extends Seeder
                     'start_time' => sprintf('%02d:00', $startHour),
                     'end_time' => sprintf('%02d:00', $endHour),
                     'work_location' => $locations[array_rand($locations)],
-                    'activities' => $activities[array_rand($activities)],
-                    'results' => $results[array_rand($results)],
-                    'notes' => 'Laporan dari superadmin untuk testing.',
+                    'activities' => $activities[$activityIndex],
+                    'results' => $results[$activityIndex],
+                    'notes' => $notes[array_rand($notes)],
                     'status' => 'approved',
                     'approved_at' => $reportDate->addHours(rand(1, 24)),
                 ]);

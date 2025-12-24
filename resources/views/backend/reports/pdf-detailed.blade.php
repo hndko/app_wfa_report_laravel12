@@ -15,321 +15,293 @@
         body {
             font-family: 'DejaVu Sans', sans-serif;
             font-size: 11px;
-            line-height: 1.6;
+            line-height: 1.5;
             color: #333;
-            padding: 20px;
+            padding: 25px 30px;
         }
 
         .header {
             text-align: center;
             margin-bottom: 25px;
-            border-bottom: 3px solid #1e3a8a;
             padding-bottom: 15px;
+            border-bottom: 2px solid #1e3a8a;
         }
 
         .header h1 {
-            font-size: 18px;
+            font-size: 16px;
             color: #1e3a8a;
-            margin-bottom: 3px;
-            letter-spacing: 1px;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
         }
 
         .header h2 {
-            font-size: 14px;
+            font-size: 13px;
             color: #3b82f6;
             font-weight: normal;
+            margin-bottom: 3px;
         }
 
-        .header h3 {
+        .header .date {
             font-size: 11px;
             color: #6b7280;
-            font-weight: normal;
-            margin-top: 5px;
         }
 
-        .report-info {
-            background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
-            padding: 15px;
-            border-radius: 5px;
+        .info-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 12px 15px;
             margin-bottom: 20px;
-            border-left: 4px solid #3b82f6;
         }
 
         .info-table {
             width: 100%;
-            border-collapse: collapse;
         }
 
         .info-table td {
-            padding: 4px 0;
-        }
-
-        .info-label {
-            width: 140px;
-            font-weight: bold;
-            color: #374151;
-        }
-
-        .section {
-            margin-bottom: 18px;
-            page-break-inside: avoid;
-        }
-
-        .section-title {
-            font-size: 12px;
-            font-weight: bold;
-            color: #fff;
-            background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
-            padding: 8px 12px;
-            border-radius: 4px 4px 0 0;
-            margin-bottom: 0;
-        }
-
-        .section-content {
-            background: #fafafa;
-            padding: 12px;
-            border: 1px solid #e5e7eb;
-            border-top: none;
-            border-radius: 0 0 4px 4px;
-            white-space: pre-wrap;
-            min-height: 40px;
-        }
-
-        .section-empty {
-            color: #9ca3af;
-            font-style: italic;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        .status-approved {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .status-submitted {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .status-rejected {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .status-draft {
-            background: #e5e7eb;
-            color: #374151;
-        }
-
-        .two-column {
-            display: table;
-            width: 100%;
-            margin-bottom: 18px;
-        }
-
-        .column {
-            display: table-cell;
-            width: 48%;
+            padding: 3px 0;
             vertical-align: top;
         }
 
-        .column:first-child {
-            padding-right: 2%;
+        .info-table .label {
+            width: 120px;
+            font-weight: bold;
+            color: #475569;
         }
 
-        .column:last-child {
-            padding-left: 2%;
+        .info-table .separator {
+            width: 10px;
+        }
+
+        .info-table .value {
+            color: #1e293b;
+        }
+
+        .section {
+            margin-bottom: 15px;
+        }
+
+        .section-header {
+            background: #1e3a8a;
+            color: #fff;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+
+        .section-body {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            padding: 10px 12px;
+            min-height: 30px;
+        }
+
+        .section-body p {
+            margin: 0;
+            text-align: justify;
+        }
+
+        .section-body .empty {
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        .signature-area {
+            margin-top: 35px;
+            width: 100%;
+        }
+
+        .signature-table {
+            width: 100%;
+        }
+
+        .signature-table td {
+            width: 50%;
+            text-align: center;
+            vertical-align: top;
+            padding: 0 20px;
+        }
+
+        .signature-table .sig-title {
+            font-size: 11px;
+            margin-bottom: 50px;
+        }
+
+        .signature-table .sig-line {
+            border-top: 1px solid #333;
+            width: 150px;
+            margin: 0 auto 5px;
+        }
+
+        .signature-table .sig-name {
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .signature-table .sig-position {
+            font-size: 10px;
+            color: #64748b;
         }
 
         .footer {
             margin-top: 30px;
             text-align: center;
             font-size: 9px;
-            color: #9ca3af;
-            border-top: 1px solid #e5e7eb;
-            padding-top: 12px;
-        }
-
-        .signature-section {
-            margin-top: 40px;
-            display: table;
-            width: 100%;
-        }
-
-        .signature-box {
-            display: table-cell;
-            width: 50%;
-            text-align: center;
-            vertical-align: top;
-        }
-
-        .signature-line {
-            border-top: 1px solid #333;
-            width: 150px;
-            margin: 60px auto 5px;
-        }
-
-        .page-number {
-            position: fixed;
-            bottom: 10px;
-            right: 20px;
-            font-size: 9px;
-            color: #9ca3af;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
         }
     </style>
 </head>
 
 <body>
+    <!-- HEADER -->
     <div class="header">
         <h1>LAPORAN KERJA WORK FROM ANYWHERE</h1>
         <h2>Format Lengkap</h2>
-        <h3>{{ $report->report_date->isoFormat('dddd, D MMMM YYYY') }}</h3>
+        <div class="date">{{ $report->report_date->isoFormat('dddd, D MMMM YYYY') }}</div>
     </div>
 
-    <div class="report-info">
+    <!-- INFO PEGAWAI -->
+    <div class="info-box">
         <table class="info-table">
             <tr>
-                <td class="info-label">Nama Pegawai</td>
-                <td>: {{ $report->user->name }}</td>
-                <td class="info-label" style="padding-left: 20px;">Tanggal Laporan</td>
-                <td>: {{ $report->report_date->format('d/m/Y') }}</td>
+                <td class="label">Nama Pegawai</td>
+                <td class="separator">:</td>
+                <td class="value">{{ $report->user->name }}</td>
+                <td class="label" style="padding-left: 30px;">Tanggal</td>
+                <td class="separator">:</td>
+                <td class="value">{{ $report->report_date->format('d/m/Y') }}</td>
             </tr>
             <tr>
-                <td class="info-label">NIP</td>
-                <td>: {{ $report->user->nip }}</td>
-                <td class="info-label" style="padding-left: 20px;">Jam Kerja</td>
-                <td>: {{ substr($report->start_time, 0, 5) }} - {{ substr($report->end_time, 0, 5) }} WIB</td>
-            </tr>
-            <tr>
-                <td class="info-label">Jabatan</td>
-                <td>: {{ $report->user->position }}</td>
-                <td class="info-label" style="padding-left: 20px;">Lokasi Kerja</td>
-                <td>: {{ $report->work_location }}</td>
-            </tr>
-            <tr>
-                <td class="info-label">Unit Kerja</td>
-                <td>: {{ $report->user->department }}</td>
-                <td class="info-label" style="padding-left: 20px;">Status</td>
-                <td>:
-                    @if($report->status === 'approved')
-                    <span class="status-badge status-approved">DISETUJUI</span>
-                    @elseif($report->status === 'submitted')
-                    <span class="status-badge status-submitted">PENDING</span>
-                    @elseif($report->status === 'rejected')
-                    <span class="status-badge status-rejected">DITOLAK</span>
-                    @else
-                    <span class="status-badge status-draft">DRAFT</span>
-                    @endif
+                <td class="label">NIP</td>
+                <td class="separator">:</td>
+                <td class="value">{{ $report->user->nip }}</td>
+                <td class="label" style="padding-left: 30px;">Jam Kerja</td>
+                <td class="separator">:</td>
+                <td class="value">{{ substr($report->start_time, 0, 5) }} - {{ substr($report->end_time, 0, 5) }} WIB
                 </td>
+            </tr>
+            <tr>
+                <td class="label">Jabatan</td>
+                <td class="separator">:</td>
+                <td class="value">{{ $report->user->position }}</td>
+                <td class="label" style="padding-left: 30px;">Lokasi</td>
+                <td class="separator">:</td>
+                <td class="value">{{ $report->work_location }}</td>
+            </tr>
+            <tr>
+                <td class="label">Unit Kerja</td>
+                <td class="separator">:</td>
+                <td class="value">{{ $report->user->department }}</td>
+                <td colspan="3"></td>
             </tr>
         </table>
     </div>
 
     <!-- I. LATAR BELAKANG -->
     <div class="section">
-        <div class="section-title">I. LATAR BELAKANG</div>
-        <div class="section-content">
-            Dalam rangka mendukung fleksibilitas kerja dan peningkatan produktivitas pegawai, pelaksanaan Work From
-            Anywhere (WFA) dilakukan dengan tetap memperhatikan pencapaian target dan kualitas pekerjaan. Laporan ini
-            disusun sebagai bentuk pertanggungjawaban pelaksanaan tugas selama bekerja secara WFA pada tanggal {{
-            $report->report_date->isoFormat('D MMMM YYYY') }}.
+        <div class="section-header">I. LATAR BELAKANG</div>
+        <div class="section-body">
+            <p>Dalam rangka mendukung fleksibilitas kerja dan peningkatan produktivitas pegawai, pelaksanaan Work From
+                Anywhere (WFA) dilakukan dengan tetap memperhatikan pencapaian target dan kualitas pekerjaan. Laporan
+                ini disusun sebagai bentuk pertanggungjawaban pelaksanaan tugas selama bekerja secara WFA pada tanggal
+                {{ $report->report_date->isoFormat('D MMMM YYYY') }}.</p>
         </div>
     </div>
 
     <!-- II. TUJUAN -->
     <div class="section">
-        <div class="section-title">II. TUJUAN</div>
-        <div class="section-content">
-            1. Melaporkan kegiatan kerja yang dilakukan selama WFA
-            2. Menyampaikan hasil kerja yang telah dicapai
-            3. Mengidentifikasi permasalahan yang dihadapi dan solusi yang diterapkan
-            4. Memberikan evaluasi pelaksanaan WFA
+        <div class="section-header">II. TUJUAN</div>
+        <div class="section-body">
+            <p>1. Melaporkan kegiatan kerja yang dilakukan selama WFA<br>
+                2. Menyampaikan hasil kerja yang telah dicapai<br>
+                3. Mengidentifikasi permasalahan yang dihadapi dan solusi yang diterapkan<br>
+                4. Memberikan evaluasi pelaksanaan WFA</p>
         </div>
     </div>
 
     <!-- III. KEGIATAN -->
     <div class="section">
-        <div class="section-title">III. KEGIATAN</div>
-        <div class="section-content">{{ $report->activities }}</div>
+        <div class="section-header">III. KEGIATAN</div>
+        <div class="section-body">
+            <p>{{ $report->activities }}</p>
+        </div>
     </div>
 
     <!-- IV. REKAPITULASI HASIL -->
     <div class="section">
-        <div class="section-title">IV. REKAPITULASI HASIL</div>
-        <div class="section-content">
+        <div class="section-header">IV. REKAPITULASI HASIL</div>
+        <div class="section-body">
             @if($report->results)
-            {{ $report->results }}
+            <p>{{ $report->results }}</p>
             @else
-            <span class="section-empty">Tidak ada hasil kerja yang dicatat</span>
+            <p class="empty">Tidak ada hasil kerja yang dicatat</p>
             @endif
         </div>
     </div>
 
     <!-- V. PERMASALAHAN -->
     <div class="section">
-        <div class="section-title">V. PERMASALAHAN</div>
-        <div class="section-content">
+        <div class="section-header">V. PERMASALAHAN</div>
+        <div class="section-body">
             @if($report->notes)
-            {{ $report->notes }}
+            <p>{{ $report->notes }}</p>
             @else
-            <span class="section-empty">Tidak ada permasalahan yang ditemukan selama pelaksanaan WFA</span>
+            <p class="empty">Tidak ada permasalahan yang ditemukan selama pelaksanaan WFA</p>
             @endif
         </div>
     </div>
 
     <!-- VI. SOLUSI -->
     <div class="section">
-        <div class="section-title">VI. SOLUSI</div>
-        <div class="section-content">
+        <div class="section-header">VI. SOLUSI</div>
+        <div class="section-body">
             @if($report->notes)
-            Permasalahan yang dihadapi telah diselesaikan dengan koordinasi melalui media komunikasi daring dan
-            penyesuaian jadwal kerja sesuai kebutuhan.
+            <p>Permasalahan yang dihadapi telah diselesaikan dengan koordinasi melalui media komunikasi daring dan
+                penyesuaian jadwal kerja sesuai kebutuhan.</p>
             @else
-            <span class="section-empty">Tidak ada solusi yang diperlukan karena tidak ada permasalahan</span>
+            <p class="empty">Tidak ada solusi yang diperlukan karena tidak ada permasalahan</p>
             @endif
         </div>
     </div>
 
     <!-- VII. EVALUASI / KESIMPULAN -->
     <div class="section">
-        <div class="section-title">VII. EVALUASI / KESIMPULAN</div>
-        <div class="section-content">
-            Pelaksanaan WFA pada tanggal {{ $report->report_date->isoFormat('D MMMM YYYY') }} berjalan dengan baik.
-            Seluruh tugas dan kegiatan yang direncanakan telah dilaksanakan sesuai dengan target yang ditetapkan.
-            Produktivitas kerja tetap terjaga meskipun bekerja dari luar kantor.
-
-            {{ $report->status === 'approved' ? 'Laporan ini telah diverifikasi dan disetujui oleh atasan.' : '' }}
+        <div class="section-header">VII. EVALUASI / KESIMPULAN</div>
+        <div class="section-body">
+            <p>Pelaksanaan WFA pada tanggal {{ $report->report_date->isoFormat('D MMMM YYYY') }} berjalan dengan baik.
+                Seluruh tugas dan kegiatan yang direncanakan telah dilaksanakan sesuai dengan target yang ditetapkan.
+                Produktivitas kerja tetap terjaga meskipun bekerja dari luar kantor.</p>
         </div>
     </div>
 
     <!-- TANDA TANGAN -->
-    <div class="signature-section">
-        <div class="signature-box">
-            <p>Yang Membuat Laporan,</p>
-            <div class="signature-line"></div>
-            <p><strong>{{ $report->user->name }}</strong></p>
-            <p style="font-size: 10px;">{{ $report->user->position }}</p>
-        </div>
-        <div class="signature-box">
-            @if($report->status === 'approved')
-            <p>Mengetahui,</p>
-            <div class="signature-line"></div>
-            <p><strong>{{ $report->approver ? $report->approver->name : 'Atasan Langsung' }}</strong></p>
-            <p style="font-size: 10px;">Supervisor</p>
-            @endif
-        </div>
+    <div class="signature-area">
+        <table class="signature-table">
+            <tr>
+                <td>
+                    <div class="sig-title">Yang Membuat Laporan,</div>
+                    <div class="sig-line"></div>
+                    <div class="sig-name">{{ $report->user->name }}</div>
+                    <div class="sig-position">{{ $report->user->position }}</div>
+                </td>
+                <td>
+                    <div class="sig-title">Mengetahui,</div>
+                    <div class="sig-line"></div>
+                    <div class="sig-name">{{ $report->approver ? $report->approver->name :
+                        '.............................' }}</div>
+                    <div class="sig-position">Atasan Langsung</div>
+                </td>
+            </tr>
+        </table>
     </div>
 
+    <!-- FOOTER -->
     <div class="footer">
-        <p>Dokumen ini digenerate secara otomatis oleh WFA Report System</p>
-        <p>Tanggal cetak: {{ now()->isoFormat('D MMMM YYYY, HH:mm') }} WIB</p>
+        Dokumen ini digenerate secara otomatis oleh WFA Report System &bull; Tanggal cetak: {{ now()->isoFormat('D MMMM
+        YYYY, HH:mm') }} WIB
     </div>
 </body>
 

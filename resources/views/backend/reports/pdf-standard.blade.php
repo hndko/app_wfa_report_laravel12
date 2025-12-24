@@ -84,34 +84,6 @@
             white-space: pre-wrap;
         }
 
-        .status-badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        .status-approved {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .status-submitted {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .status-rejected {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .status-draft {
-            background: #e5e7eb;
-            color: #374151;
-        }
-
         .footer {
             margin-top: 40px;
             text-align: center;
@@ -158,20 +130,6 @@
         <div class="info-row">
             <span class="info-label">Lokasi Kerja</span>
             <span class="info-value">: {{ $report->work_location }}</span>
-        </div>
-        <div class="info-row">
-            <span class="info-label">Status</span>
-            <span class="info-value">:
-                @if($report->status === 'approved')
-                <span class="status-badge status-approved">DISETUJUI</span>
-                @elseif($report->status === 'submitted')
-                <span class="status-badge status-submitted">MENUNGGU APPROVAL</span>
-                @elseif($report->status === 'rejected')
-                <span class="status-badge status-rejected">DITOLAK</span>
-                @else
-                <span class="status-badge status-draft">DRAFT</span>
-                @endif
-            </span>
         </div>
     </div>
 
