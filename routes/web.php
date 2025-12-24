@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\ProfileController;
+use App\Http\Controllers\Backend\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,6 +58,12 @@ Route::middleware('auth')->group(function () {
 | NOTE: Requires 'superadmin' role
 */
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
+
+    // SETTINGS MANAGEMENT
+    Route::prefix('settings')->name('settings.')->group(function () {
+        Route::get('/', [SettingController::class, 'index'])->name('index');
+        Route::post('/update', [SettingController::class, 'update'])->name('update');
+    });
 
     // USER MANAGEMENT
     Route::prefix('users')->name('users.')->group(function () {

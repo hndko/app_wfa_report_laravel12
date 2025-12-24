@@ -77,6 +77,12 @@
                         <i class="fas fa-clipboard-list w-5"></i>
                         <span class="ml-3">Semua Laporan</span>
                     </a>
+
+                    <a href="{{ route('settings.index') }}"
+                        class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 {{ request()->is('settings*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+                        <i class="fas fa-cog w-5"></i>
+                        <span class="ml-3">Pengaturan</span>
+                    </a>
                     @else
                     <a href="{{ route('my.reports.index') }}"
                         class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 {{ request()->is('my-reports*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">

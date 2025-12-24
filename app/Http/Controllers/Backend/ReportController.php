@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Report;
 use App\Models\ReportAttachment;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -55,6 +56,7 @@ class ReportController extends Controller
             'reports' => $query->latest('report_date')->paginate(15)->withQueryString(),
             'users' => $users,
             'filters' => $request->only(['user_id', 'status', 'date_from', 'date_to', 'month']),
+            'approval_enabled' => Setting::isApprovalEnabled(),
         ];
 
         return view('backend.reports.index', $data);
@@ -83,6 +85,7 @@ class ReportController extends Controller
             'page_title' => 'Laporan Saya',
             'reports' => $query->latest('report_date')->paginate(15)->withQueryString(),
             'filters' => $request->only(['status', 'month']),
+            'approval_enabled' => Setting::isApprovalEnabled(),
         ];
 
         return view('backend.reports.my-index', $data);
@@ -100,6 +103,7 @@ class ReportController extends Controller
         $data = [
             'page_title' => 'Detail Laporan',
             'report' => $report,
+            'approval_enabled' => Setting::isApprovalEnabled(),
         ];
 
         return view('backend.reports.show', $data);
@@ -119,6 +123,7 @@ class ReportController extends Controller
         $data = [
             'page_title' => 'Detail Laporan',
             'report' => $report,
+            'approval_enabled' => Setting::isApprovalEnabled(),
         ];
 
         return view('backend.reports.my-show', $data);
@@ -132,6 +137,7 @@ class ReportController extends Controller
     {
         $data = [
             'page_title' => 'Buat Laporan Baru',
+            'approval_enabled' => Setting::isApprovalEnabled(),
         ];
 
         return view('backend.reports.create', $data);
@@ -140,6 +146,7 @@ class ReportController extends Controller
     /**
      * Store new report with attachments
      * NOTE: User role only, uses Storage for files
+     * If approval is disabled, auto-approve on submit
      */
     public function store(Request $request)
     {
@@ -154,6 +161,15 @@ class ReportController extends Controller
             'status' => 'required|in:draft,submitted',
             'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
+
+        // Check if approval is enabled
+        $approvalEnabled = Setting::isApprovalEnabled();
+
+        // If submitting and approval is disabled, auto-approve
+        if ($validated['status'] === 'submitted' && !$approvalEnabled) {
+            $validated['status'] = 'approved';
+            $validated['approved_at'] = Carbon::now();
+        }
 
         // Create report
         $validated['user_id'] = auth()->id();
@@ -180,9 +196,14 @@ class ReportController extends Controller
             }
         }
 
-        $message = $validated['status'] === 'submitted'
-            ? 'Laporan berhasil dibuat dan disubmit!'
-            : 'Laporan berhasil disimpan sebagai draft!';
+        // Build success message based on status
+        if ($validated['status'] === 'approved') {
+            $message = 'Laporan berhasil dibuat!';
+        } elseif ($validated['status'] === 'submitted') {
+            $message = 'Laporan berhasil dibuat dan menunggu approval!';
+        } else {
+            $message = 'Laporan berhasil disimpan sebagai draft!';
+        }
 
         return redirect()
             ->route('my.reports.index')
@@ -204,6 +225,7 @@ class ReportController extends Controller
         $data = [
             'page_title' => 'Edit Laporan',
             'report' => $report,
+            'approval_enabled' => Setting::isApprovalEnabled(),
         ];
 
         return view('backend.reports.edit', $data);
@@ -212,6 +234,7 @@ class ReportController extends Controller
     /**
      * Update report with new attachments
      * NOTE: User role only, can update draft/rejected only
+     * If approval is disabled, auto-approve on submit
      */
     public function update(Request $request, $id)
     {
@@ -231,6 +254,16 @@ class ReportController extends Controller
             'status' => 'required|in:draft,submitted',
             'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
+
+        // Check if approval is enabled
+        $approvalEnabled = Setting::isApprovalEnabled();
+
+        // If submitting and approval is disabled, auto-approve
+        if ($validated['status'] === 'submitted' && !$approvalEnabled) {
+            $validated['status'] = 'approved';
+            $validated['approved_at'] = Carbon::now();
+            $validated['rejection_reason'] = null;
+        }
 
         $report->update($validated);
 
@@ -253,9 +286,14 @@ class ReportController extends Controller
             }
         }
 
-        $message = $validated['status'] === 'submitted'
-            ? 'Laporan berhasil diupdate dan disubmit!'
-            : 'Laporan berhasil diupdate!';
+        // Build success message based on status
+        if ($validated['status'] === 'approved') {
+            $message = 'Laporan berhasil diupdate!';
+        } elseif ($validated['status'] === 'submitted') {
+            $message = 'Laporan berhasil diupdate dan menunggu approval!';
+        } else {
+            $message = 'Laporan berhasil diupdate!';
+        }
 
         return redirect()
             ->route('my.reports.index')
@@ -290,6 +328,7 @@ class ReportController extends Controller
     /**
      * Submit draft report
      * NOTE: User role only, change draft to submitted
+     * If approval is disabled, auto-approve
      */
     public function submit($id)
     {
@@ -298,11 +337,23 @@ class ReportController extends Controller
             ->where('status', 'draft')
             ->firstOrFail();
 
-        $report->update(['status' => 'submitted']);
+        // Check if approval is enabled
+        $approvalEnabled = Setting::isApprovalEnabled();
+
+        if ($approvalEnabled) {
+            $report->update(['status' => 'submitted']);
+            $message = 'Laporan berhasil disubmit dan menunggu approval!';
+        } else {
+            $report->update([
+                'status' => 'approved',
+                'approved_at' => Carbon::now(),
+            ]);
+            $message = 'Laporan berhasil disubmit!';
+        }
 
         return redirect()
             ->route('my.reports.index')
-            ->with('success', 'Laporan berhasil disubmit!');
+            ->with('success', $message);
     }
 
     /**

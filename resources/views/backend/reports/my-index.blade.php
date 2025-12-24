@@ -30,12 +30,14 @@
                             <option value="">Semua Status</option>
                             <option value="draft" {{ ($filters['status'] ?? '' )=='draft' ? 'selected' : '' }}>Draft
                             </option>
+                            @if($approval_enabled ?? false)
                             <option value="submitted" {{ ($filters['status'] ?? '' )=='submitted' ? 'selected' : '' }}>
-                                Submitted</option>
-                            <option value="approved" {{ ($filters['status'] ?? '' )=='approved' ? 'selected' : '' }}>
-                                Approved</option>
+                                Menunggu Approval</option>
                             <option value="rejected" {{ ($filters['status'] ?? '' )=='rejected' ? 'selected' : '' }}>
-                                Rejected</option>
+                                Ditolak</option>
+                            @endif
+                            <option value="approved" {{ ($filters['status'] ?? '' )=='approved' ? 'selected' : '' }}>
+                                Disetujui</option>
                         </select>
                     </div>
                 </div>
